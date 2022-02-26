@@ -21,23 +21,23 @@ class UserSeeder extends Seeder
                 'faculty_id'=> 4,
                 'name'=>'admin',
                 'username'=>'admin',
-                'email'=>'admin@admin.com', 
+                'email'=>'admin@admin.com',
                 'password'=>Hash::make('admin12345'),
                 'remark'=>'Superadmin user',
                 'active'=>1,
                 'is_admin'=>1,
-                
+
             ],
             [
                 'faculty_id'=> 3,
                 'name'=>'user',
                 'username'=>'user',
-                'email'=>'user@user.com', 
+                'email'=>'user@user.com',
                 'password'=>Hash::make('admin12345'),
                 'remark'=>'admin user',
                 'active'=>1,
                 'is_admin'=>0,
-                
+
             ],
             [
                 'faculty_id'=> 2,
@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
                 'remark'=>'Superadmin user',
                 'active'=>1,
                 'is_admin'=>1,
-                
+
             ],
             [
                 'faculty_id'=> 1,
@@ -59,18 +59,18 @@ class UserSeeder extends Seeder
                 'remark'=>'admin user',
                 'active'=>1,
                 'is_admin'=>0,
-                
+
             ],
             [
                 'faculty_id'=> 4,
                 'name'=>'efacadmin',
                 'username'=>'efac',
-                'email'=>'efac@efac.com', 
+                'email'=>'efac@efac.com',
                 'password'=>Hash::make('admin12345'),
                 'remark'=>'admin user for efac',
                 'active'=>1,
                 'is_admin'=>0,
-                
+
             ],
         ];
 

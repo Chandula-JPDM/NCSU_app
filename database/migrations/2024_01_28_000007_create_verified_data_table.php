@@ -13,7 +13,7 @@ class CreateVerifiedDataTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('verified_data')) {
+        if (! Schema::hasTable('verified_data')) {
             Schema::create('verified_data', function (Blueprint $table) {
                 $table->id();
                 $table->string('fname', 20);

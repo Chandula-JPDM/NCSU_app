@@ -6,12 +6,11 @@
 <div class="container vh-75">
 <main class="container">
    <div class="p-3 pb-1 rounded">
-       <h3 class="text-left pb-1">Data Catalogue</h3>
-       <h1 class="text-center font-weight-bold">{{$batch}} Batch</h1>
+       <h1 class="font-weight-bold">{{$facultyname}} | {{$batch}} Batch</h1>
        <nav aria-label="breadcrumb">
            <ol class="breadcrumb">
                <li class="breadcrumb-item"><a href="/catalogue">Data Catalogue</a></li>
-               <li class="breadcrumb-item"><a href="/catalogue/{{$facultyCode}}">{{$facultyCode}}</a></li>
+               <li class="breadcrumb-item"><a href="/catalogue/{{$facultyCode}}">{{$facultyname}}</a></li>
                <li class="breadcrumb-item active" aria-current="page">{{$batch}} Batch</li>
            </ol>
        </nav>
@@ -24,7 +23,7 @@
    <div class="row justify-content-center pb-5">
        @foreach($people as $data)
        <div class="card text-center p-2 m-1 border-primary" style="width: 11rem;">
-            <img src="/storage/{{$data->image}}" style="border-radius: 7%; height:158px;object-fit: cover;" class="card-img-top p-1" alt="">
+            <img src={{$data->image}} style="border-radius: 7%; height:158px;object-fit: cover;" class="card-img-top p-1" alt="">
            <div class="card-body d-flex flex-column">
                <h6 class="card-title">
                     {{$data->fullname}}

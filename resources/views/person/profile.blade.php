@@ -2,7 +2,7 @@
 
 @section('content')
 <main class="container">
-    <h1>{{$user->faculty->name}}</h1>
+    <h1>{{$faculty_name}}</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -19,7 +19,7 @@
            <div class="card">
                <div class="card-body">
                    <div class="d-flex flex-column align-items-center text-center">
-                        <img src="/storage/app/{{$person->image}}" alt="image" style="border-radius: 10%" width="250">
+                        <img src={{$person->image}} alt="{{"Profile Image: ".$person->username}}" style="border-radius: 10%" width="250">
                        <div class="mt-2">
                            <h4>{{$person->initial}}</h4>
                        </div>
@@ -38,6 +38,24 @@
        <div class="col-md-8">
            <div class="card mb-3">
                <div class="card-body">
+                   <div class="row">
+                       <div class="col-sm-3">
+                            <span class="mb-0" style="font-weight: 500">First name</span>
+                       </div>
+                       <div class="col-sm-9 text-secondary">
+                            {{$person->fname}}
+                       </div>
+                   </div>
+                   <hr>
+                   <div class="row">
+                       <div class="col-sm-3">
+                            <span class="mb-0" style="font-weight: 500">Last name</span>
+                       </div>
+                       <div class="col-sm-9 text-secondary">
+                            {{$person->lname}}
+                       </div>
+                   </div>
+                   <hr>
                    <div class="row">
                        <div class="col-sm-3">
                             <span class="mb-0" style="font-weight: 500">Full Name</span>
@@ -94,19 +112,10 @@
                    <hr>
                    <div class="row">
                        <div class="col-sm-3">
-                            <span class="mb-0" style="font-weight: 500">Registration Number</span>
+                            <span class="mb-0" style="font-weight: 500">Username</span>
                        </div>
                        <div class="col-sm-9 text-secondary">
-                            {{$person->regNo}}
-                       </div>
-                   </div>
-                   <hr>
-                   <div class="row">
-                       <div class="col-sm-3">
-                            <span class="mb-0" style="font-weight: 500">Department</span>
-                       </div>
-                       <div class="col-sm-9 text-secondary">
-                            Computer Engineering
+                            {{$person->username}}
                        </div>
                    </div>
                </div>

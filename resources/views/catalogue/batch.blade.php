@@ -5,12 +5,11 @@
     <div class="container vh-75">
     <main class="container">
     <div class="p-3 pb-1 rounded">
-        <h3 class="text-left pb-1">Data Catalogue</h3>
-        <h1 class="text-center font-weight-bold">{{$facultyname}}</h1>
+        <h1 class="font-weight-bold">{{$facultyname}}</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/catalogue">Data Catalogue</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{$facultyCode}}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{$facultyname}}</li>
             </ol>
         </nav>
     </div>
@@ -30,7 +29,7 @@
                    <div class="card-header">
                        <h5>Academic Staff</h5>
                    </div>
-                    <img src="/images/homepage/staff.jpg" class="card-img-top p-3" alt="Staff">
+                    {{-- <img src="/images/homepage/staff.jpg" class="card-img-top p-3" alt="Staff"> --}}
                    <div class="card-body">
                        <ul class="list-group list-group-flush">
                             <a class="btn btn-outline-primary w-100 buttonBottomMargin" href="/staff/academic/">Academic Staff</a>
@@ -48,7 +47,7 @@
                    <div class="card-header">
                        <h5>Non Academic Staff</h5>
                    </div>
-                    <img src="/images/homepage/staff.jpg" class="card-img-top p-3" alt="Staff">
+                    {{-- <img src="/images/homepage/staff.jpg" class="card-img-top p-3" alt="Staff"> --}}
                    <div class="card-body">
                        <ul class="list-group list-group-flush">
                             <a class="btn btn-outline-primary w-100 buttonBottomMargin" href="/staff/academic/">Permanent Staff</a>
@@ -64,7 +63,7 @@
                    <div class="card-header">
                        <h5>Students</h5>
                    </div>
-                    <img src="/images/homepage/student.jpg" class="card-img-top p-3" alt="Students">
+                    {{-- <img src="/images/homepage/student.jpg" class="card-img-top p-3" alt="Students"> --}}
                    <div class="card-body">
                        @foreach($batches as $data)
                         <a class="btn btn-outline-primary w-100 buttonBottomMargin" href="/catalogue/{{$facultyCode}}/{{$data->id}}">{{$data->id}} Batch</a>

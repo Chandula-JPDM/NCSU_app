@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'University of Peradeniya') }}</title>
+    <title>University of Peradeniya | People</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -68,14 +68,28 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="/" style="color: white;">Home</a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a class="nav-link" href="/catalogue" style="color: white;">People</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/forum/create" style="color: white;">Forum</a>
+                            </li>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="color: white;">
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a href="/profile" class="dropdown-item">Profile</a>
                                     
                                     @yield('navbar')
+                                    
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -92,6 +106,8 @@
                 </div>
             </div>
         </nav>
+
+        @yield('welcome')
 
         <main class="py-4">
             @yield('content')

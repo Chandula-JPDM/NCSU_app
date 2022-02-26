@@ -12,7 +12,7 @@
     <div class="container py-4 px-lg-5">
         <div class="row justify-content-center">
             @foreach($fac as $data)
-                <a class="btn btn-outline-primary w-25  m-2" href="/catalogue/{{$data->facultyCode}}">{{$data->name}}</a>
+                <a class="btn btn-outline-primary m-2" href="/catalogue/{{$data->facultyCode}}">{{$data->name}}</a>
             @endforeach
         </div>
     </div>
@@ -25,7 +25,10 @@
             <p class="col-md-4 mb-0 text-muted">© 2022 University of Peradeniya</p>
 
             <ul class="nav col-md-4 justify-content-end">
-                <p class="col-md-4 mb-0 text-muted">All rights reserved</p>
+                <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+                <li class="nav-item"><a href="/forum" class="nav-link px-2 text-muted">Forum</a></li>
+                <li class="nav-item"><a href="/catalogue" class="nav-link px-2 text-muted">People</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
             </ul>
 
         </footer>

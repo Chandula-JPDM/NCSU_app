@@ -9,7 +9,7 @@
 @endif
 
 <main class="container">
-    <h1>{{$user->faculty->name}}</h1>
+    <h1>{{$faculty_name}}</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -23,7 +23,7 @@
     <div class="row justify-content-center pb-5">
         @foreach($people as $data)
             <div class="card text-center p-2 m-1 border-primary" style="width: 11rem;">    
-                <img src="/storage/{{$data->image}}" style="border-radius: 7%; height:158px;object-fit: cover;" class="card-img-top p-1" alt="">
+                <img src={{$data->image}} style="border-radius: 7%; height:158px;object-fit: cover;" class="card-img-top p-1" alt="">
                 <div class="card-body d-flex flex-column">
                     <h6 class="card-title">
                         {{$data->initial}}

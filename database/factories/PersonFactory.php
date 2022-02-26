@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Batch;
-use App\Models\Faculty;
 use App\Models\Department;
+use App\Models\Faculty;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PersonFactory extends Factory
@@ -15,7 +15,7 @@ class PersonFactory extends Factory
      * @return array
      */
     public function definition()
-    {   
+    {
         $Gender = array_rand(['male', 'female']);
         $firstName = $this->faker->firstName($gender = $Gender, $maxNbChars = 20);
         $middleName = $this->faker->firstName($gender = $Gender, $maxNbChars = 20);
@@ -29,13 +29,13 @@ class PersonFactory extends Factory
         return [
             'fname' => $firstName,
 
-            'lname' => $lastName ,
+            'lname' => $lastName,
 
             'username' => $firstName.$this->faker->unique()->randomNumber($nbDigits = 5, $strict = true),
 
             'fullname' => $firstName.' '.$middleName.' '.$lastName,
 
-            'initial' => $firstName[0].'.'.$middleName[0].'. '.$lastName, 
+            'initial' => $firstName[0].'.'.$middleName[0].'. '.$lastName,
 
             'address' => $this->faker->streetAddress().', '.$city.', '.$this->faker->state().' '.$this->faker->postcode(),
 

@@ -1,0 +1,32 @@
+TODOS:
+	Nadun:
+		Adjust photo directories
+
+	Chandula:
+		AD connection and data transfering
+
+	Tharushi:
+		testing
+
+	background image home page
+	footer template
+	remove topic data catalogue in the catalogue page
+	add images for users in catalogue page
+
+	access all the db tables through models (Not from the DB).
+		ProfileController.php - line 63
+
+	Modify all the hard corded entries to dynamic
+		ProfileController.php - line 44
+
+	Modify routes in a conventional manner
+		/person/{batch}/{person}, /person/17/37 -> person/17/eno
+		/person/{batch}/{person}/verify
+
+	
+
+BUGS:
+	Isuru:
+		student catalogue shows false data
+
+	super admin last login time adjustment

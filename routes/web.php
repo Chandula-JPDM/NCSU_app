@@ -41,7 +41,7 @@ Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->n
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
 
 // Route that can be only accesed by the super admin
-Route::group(['middleware' => ['auth', 'admin']], function() {
+Route::group(['middleware' => ['auth', 'admin']], function () {
     // your routes
     Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 

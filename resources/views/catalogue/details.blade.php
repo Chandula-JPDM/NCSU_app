@@ -4,7 +4,6 @@
 <div class="container">
 <main class="container">
    <div class="p-3 pb-1 rounded">
-       <h3 class="text-left pb-1">Verified Details</h3>
        @if ($details === null)
         <h1 class="text-center font-weight-bold">Student Not Verified Yet</h1>
        @else
@@ -22,7 +21,7 @@
   <form class="row g-3 pt-4">
 
     <div class="mb-3">
-      <img src="/storage/{{$details->image}}" style="border-radius: 10%; height:300px; object-fit: cover;" class="rounded mx-auto d-block" alt="">  
+      <img src={{$details->image}} style="border-radius: 10%; height:300px; object-fit: cover;" class="rounded mx-auto d-block" alt="">  
     </div>
 
     <div class="col-md-6">

@@ -13,7 +13,7 @@ class CreatePeopleTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('people')) {
+        if (! Schema::hasTable('people')) {
             Schema::create('people', function (Blueprint $table) {
                 $table->id();
                 $table->string('fname', 20);
@@ -35,7 +35,7 @@ class CreatePeopleTable extends Migration
                 $table->foreign('department_id')->references('id')->on('departments');
                 $table->foreign('faculty_id')->references('id')->on('faculties');
             });
-        }    
+        }
     }
 
     /**
