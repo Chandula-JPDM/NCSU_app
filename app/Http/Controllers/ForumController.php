@@ -14,6 +14,15 @@ use File;
 
 class ForumController extends Controller
 {
+    public function index()
+    {
+        return view('forum.form');
+    }
+    public function staff()
+    {
+        return view('forum.staff');
+    }
+
     public function create()
     {
 

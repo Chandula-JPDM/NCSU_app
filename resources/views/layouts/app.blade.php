@@ -54,7 +54,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/forum/create" style="color: white;">Forum</a>
+                                    <a class="nav-link" href="/forum/form" style="color: white;">Forum</a>
                                 </li>
                                 
                                 <li class="nav-item">
@@ -77,7 +77,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/forum/create" style="color: white;">Forum</a>
+                                <a class="nav-link" href="/forum/student" style="color: white;">Forum</a>
                             </li>
 
                             <li class="nav-item dropdown">
