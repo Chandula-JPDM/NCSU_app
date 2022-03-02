@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForumVerificationMail;
 use Illuminate\Http\Request;
 
 use \App\Models\Person;
@@ -11,6 +12,7 @@ use App\Models\Faculty;
 
 use Image;
 use File;
+use Illuminate\Support\Facades\Mail;
 
 class ForumController extends Controller
 {
@@ -91,6 +93,7 @@ class ForumController extends Controller
             'fname' => ['required','string', 'max:20'],
             'lname' => ['required','string', 'max:20'],
             'username' => ['required','string', 'max:20', 'unique:people', 'unique:verified_data'],
+            'email' => ['required', 'email:rfc,dns', 'unique:people', 'unique:verified_data'],
             'fullname' => ['required','string', 'max:100'],
             'initial' => ['required','string', 'max:50'],
             'address' => ['required','string', 'max:100'],
@@ -113,21 +116,8 @@ class ForumController extends Controller
         $data['image'] = $path;
         Person::create($data);
 
-        // Person::create([
-        //     'fname' => $data['fname'],
-        //     'lname' => $data['lname'],
-        //     'username' => $data['username'],
-        //     'fullname' => $data['fullname'], 
-        //     'initial' => $data['initial'],
-        //     'address' => $data['address'],
-        //     'city' => $data['city'],
-        //     'date' => $data['date'],
-        //     'regNo' => $data['regNo'],
-        //     'image' => $imagePath,
-        //     'faculty_id' => $data['faculty_id'],
-        //     'batch_id' => $data['batch_id'],
-        //     'department_id' => $data['department_id'],
-        // ]);
+        //Mail sending procedure
+        Mail::to($data['email'])->send(new ForumVerificationMail());
 
         return redirect('/forum/create')->with('message', 'Forum data entered Succesfully!!');
     }

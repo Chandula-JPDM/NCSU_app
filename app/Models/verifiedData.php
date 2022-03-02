@@ -12,6 +12,7 @@ class verifiedData extends Model
         'fname',
         'lname',
         'username',
+        'email',
         'fullname',
         'initial',
         'address',
