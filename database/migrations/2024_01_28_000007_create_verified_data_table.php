@@ -19,6 +19,7 @@ class CreateVerifiedDataTable extends Migration
                 $table->string('fname', 20);
                 $table->string('lname', 20);
                 $table->string('username', 20)->unique();
+                $table->string('email', 50)->unique();
                 $table->string('fullname', 100);
                 $table->string('initial', 50);
                 $table->string('address', 100);

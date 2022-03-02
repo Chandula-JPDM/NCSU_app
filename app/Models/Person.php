@@ -13,6 +13,7 @@ class Person extends Model
         'fname',
         'lname',
         'username',
+        'email',
         'fullname',
         'initial',
         'address',
