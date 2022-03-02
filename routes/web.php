@@ -36,6 +36,9 @@ Route::get('/forum/create', [App\Http\Controllers\ForumController::class, 'creat
 
 Route::get('/forum/create/{id}', [App\Http\Controllers\ForumController::class, 'findDepartment']);
 
+Route::get('/forum/form', [App\Http\Controllers\ForumController::class, 'index']);
+Route::get('/forum/staff', [App\Http\Controllers\ForumController::class, 'staff']);
+
 Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
 
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
