@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Faculty;
 use App\Models\Department;
+use App\Models\Faculty;
 use Illuminate\Database\Seeder;
 
 class DepartmentSeeder extends Seeder
@@ -33,15 +33,14 @@ class DepartmentSeeder extends Seeder
         //     }
         // }
 
-        
         // How many department you need, defaulting to 10
-        $departmentCount = (int)$this->command->ask('How many department do you need for each faculty?', 10);
-        
+        $departmentCount = (int) $this->command->ask('How many department do you need for each faculty?', 10);
+
         $this->command->info("Creating {$departmentCount} departments for each...");
-        
+
         $faculties = Faculty::select('id')->get();
 
-        // Create the Departments 
+        // Create the Departments
         foreach ($faculties as $faculty) {
             Department::factory()->count($departmentCount)->state(['faculty_id' => $faculty->id])->create();
         }

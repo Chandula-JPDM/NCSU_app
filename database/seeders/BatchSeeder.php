@@ -27,7 +27,7 @@ class BatchSeeder extends Seeder
         if (DB::table('batches')->count() == 0) {
             foreach ($batch_list as $batch) {
                 Batch::create($batch);
-            }  
+            }
         }
     }
 }

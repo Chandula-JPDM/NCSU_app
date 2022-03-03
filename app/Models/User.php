@@ -25,7 +25,7 @@ class User extends Authenticatable
         'password',
         'remark',
         'active',
-        'is_admin',        
+        'is_admin',
     ];
 
     /**
@@ -49,7 +49,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function faculty(){
+    public function faculty()
+    {
         return $this->belongsTo(Faculty::class);
     }
 }

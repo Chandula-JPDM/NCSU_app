@@ -6,8 +6,8 @@ use App\Models\Faculty;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
 class AdminLoginTest extends TestCase
 {
@@ -19,7 +19,7 @@ class AdminLoginTest extends TestCase
 
         //we want to create a faculty
         Faculty::create([
-            'id'=> 1, 'name'=>'Faculty of Agriculture', 'facultyCode'=>'AG'
+            'id'=> 1, 'name'=>'Faculty of Agriculture', 'facultyCode'=>'AG',
         ]);
 
         //we want to create a user
@@ -31,7 +31,6 @@ class AdminLoginTest extends TestCase
         $response = $this->get('/profile');
 
         $response->assertStatus(200);
-
     }
 
     public function test_a_super_admin_can_go_to_create_new_user_page()
@@ -40,7 +39,7 @@ class AdminLoginTest extends TestCase
 
         //we want to create a faculty
         Faculty::create([
-            'id'=> 1, 'name'=>'Faculty of Agriculture', 'facultyCode'=>'AG'
+            'id'=> 1, 'name'=>'Faculty of Agriculture', 'facultyCode'=>'AG',
         ]);
 
         //we want to create a user
@@ -59,7 +58,7 @@ class AdminLoginTest extends TestCase
 
         //we want to create a faculty
         Faculty::create([
-            'id'=> 1, 'name'=>'Faculty of Agriculture', 'facultyCode'=>'AG'
+            'id'=> 1, 'name'=>'Faculty of Agriculture', 'facultyCode'=>'AG',
         ]);
 
         //we want to create a user
@@ -78,7 +77,7 @@ class AdminLoginTest extends TestCase
 
         //we want to create a faculty
         Faculty::create([
-            'id'=> 1, 'name'=>'Faculty of Agriculture', 'facultyCode'=>'AG'
+            'id'=> 1, 'name'=>'Faculty of Agriculture', 'facultyCode'=>'AG',
         ]);
 
         //we want to create a user
@@ -87,7 +86,7 @@ class AdminLoginTest extends TestCase
         //check user can authedicate
         $this->actingAs($user);
 
-        $response = $this->post('/profile',[
+        $response = $this->post('/profile', [
             'name' => 'testUser',
             'username' => 'test',
             'email' => 'test@test.com',

@@ -11,10 +11,11 @@ class Department extends Model
 
     protected $fillable = [
         'faculty_id',
-        'name'
+        'name',
     ];
 
-    public function faculty(){
+    public function faculty()
+    {
         return $this->belongsTo(Faculty::class);
     }
 }
