@@ -9,7 +9,7 @@
 @endif
 
 <div class="container p-2 pb-2 rounded">
-            <h1 class="text-center font-weight-bold">Data Collection Form</h1>
+            <h1 class="text-center font-weight-bold">Staff Data Collection Form</h1>
 </div>
 
 <div class="container">
@@ -69,11 +69,11 @@
     </div>
     
     <div class="col-md-6">
-      <label for="city" class="form-label">City</label>
+      <label for="email" class="form-label">Email</label>
       
-      <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" placeholder="California" name="city" value="{{ old('city') }}" required autocomplete="city" autofocus>
+      <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="alex123@xyz.pdn.ac.lk" name="email" value="{{ old('email') }}" required autocomplete="city" autofocus>
 
-      @error('city')
+      @error('email')
           <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>
           </span>
@@ -107,12 +107,12 @@
 
     </div>
 
-    <div class="col-12">
-      <label for="email" class="form-label">Email</label>
+    <div class="col-md-6">
+      <label for="phone" class="form-label">Contact No.</label>
       
-      <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter your Gsuite email address" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+      <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" placeholder="" name="phone" value="{{ old('phone') }}" required autocomplete="phone" autofocus>
 
-      @error('email')
+      @error('phone')
           <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>
           </span>
@@ -121,28 +121,11 @@
     </div>
 
     <div class="col-md-6">
-      <label for="date" class="form-label">Birthday</label>
+      <label for="post" class="form-label">Post</label>
       
-      <input id="date" type="date" class="form-control @error('date') is-invalid @enderror" placeholder="04/01/1998" name="date" value="{{ old('date') }}" required autocomplete="date" autofocus>
+      <input id="post" type="text" class="form-control @error('post') is-invalid @enderror" placeholder="Senior Lecturer" name="post" value="{{ old('post') }}" required autocomplete="post" autofocus>
 
-      @error('date')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-
-    </div>
-
-    <div class="col-md-6">
-      <label for="batch_id" class="form-label">Batch</label>
-
-      <select id="batch_id" type="batch_id" class="form-select @error('batch_id') is-invalid @enderror" name="batch_id" value="{{ old('batch_id') }}" required autocomplete="batch_id">
-        @foreach($batch as $data)
-        <option value="{{$data->id}}">{{$data->batch}}</option>
-        @endforeach
-      </select>
-
-      @error('batch_id')
+      @error('post')
           <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>
           </span>
@@ -154,9 +137,7 @@
       <label for="faculty_id" class="form-label">Facutly name</label>
 
       <select id="faculty_id" type="faculty_id" class="form-select @error('faculty_id') is-invalid @enderror" name="faculty_id" value="{{ old('faculty_id') }}" required autocomplete="faculty_id">
-        @foreach($fac as $data)
-        <option value="{{$data->id}}">{{$data->name}}</option>
-        @endforeach
+        
       </select>
 
       @error('faculty_id')
@@ -180,17 +161,7 @@
       @enderror
     </div>
 
-    <div class="col-md-2">
-      <label for="regNo" class="form-label">Reg no.</label>
-      
-      <input id="regNo" type="text" class="form-control @error('regNo') is-invalid @enderror" placeholder="E/66/566" name="regNo" value="{{ old('regNo') }}" required autocomplete="regNo" autofocus>
-
-      @error('regNo')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-    </div>
+    
 
     <div class="mb-3">
       <label for="formFile" class="form-label">Insert a Profile Image</label>
@@ -226,38 +197,5 @@
   </div>
 @endsection
 
-@section('script')
-<script src="{{ asset('js/app.js') }}"></script>
-<script>
-  $(document).ready(function() {
-    $('#faculty_id').on('change', function() {
-            let facID = $(this).val();
-            if(facID) 
-            {
-                $.ajax({
-                    url: '/forum/create/'+facID,
-                    type: "GET",
-                    data : {"_token":"{{ csrf_token() }}"},
-                    dataType: "json",
-                    success:function(data) {
-                      // console.log(data);
-                      if(data)
-                      {
-                        $('#department_id').empty();
-                        $('#department_id').focus;
-                        $('#department_id').append('<option value="">-- Select Department --</option>'); 
-                        $.each(data, function(key, value){$('select[name="department_id"]').append('<option value="'+ key +'">' + value.name+ '</option>');});
-                      }
-                      else
-                      {
-                        $('#department_id').empty();
-                      }
-                    }
-                });
-            }
-            else
-            {$('#department_id').empty();}
-        });
-    });
-</script>
-@endsection
+
+

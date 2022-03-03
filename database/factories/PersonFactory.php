@@ -33,6 +33,8 @@ class PersonFactory extends Factory
 
             'username' => $firstName.$this->faker->unique()->randomNumber($nbDigits = 5, $strict = true),
 
+            'email' => $this->faker->unique()->email(),
+
             'fullname' => $firstName.' '.$middleName.' '.$lastName,
 
             'initial' => $firstName[0].'.'.$middleName[0].'. '.$lastName,
