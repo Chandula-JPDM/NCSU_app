@@ -43,6 +43,8 @@ Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->n
 
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
 
+Route::get('/register/{username}', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
+
 // Route that can be only accesed by the super admin
 Route::group(['middleware' => ['auth', 'admin']], function() {
     // your routes
