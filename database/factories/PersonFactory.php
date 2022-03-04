@@ -6,6 +6,7 @@ use App\Models\Batch;
 use App\Models\Faculty;
 use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 class PersonFactory extends Factory
 {
@@ -34,6 +35,8 @@ class PersonFactory extends Factory
             'username' => $firstName.$this->faker->unique()->randomNumber($nbDigits = 5, $strict = true),
 
             'email' => $this->faker->unique()->email(),
+
+            'password' => Hash::make('user12345'),
 
             'fullname' => $firstName.' '.$middleName.' '.$lastName,
 

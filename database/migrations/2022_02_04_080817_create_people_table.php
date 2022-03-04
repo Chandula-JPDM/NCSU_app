@@ -20,6 +20,7 @@ class CreatePeopleTable extends Migration
                 $table->string('lname', 20);
                 $table->string('username', 20)->unique();
                 $table->string('email',50)->unique();
+                $table->string('password');
                 $table->string('fullname', 100);
                 $table->string('initial', 30);
                 $table->string('address', 200);

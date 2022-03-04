@@ -14,6 +14,7 @@ class Person extends Model
         'lname',
         'username',
         'email',
+        'password',
         'fullname',
         'initial',
         'address',
