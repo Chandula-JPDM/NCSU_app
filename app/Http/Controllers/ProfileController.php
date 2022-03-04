@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 
 class ProfileController extends Controller
 {
+    use ActivityLogger;
+
     public function _construct()
     {
         $this->middleware('auth');
@@ -58,14 +61,13 @@ class ProfileController extends Controller
     public function create()
     {
         $faculties = DB::table('faculties')->get();
-
         return view('profile.create')->with('faculty', $faculties);
     }
 
     public function delete(User $user)
     {
         $deleted = DB::table('users')->where('id', '=', $user->id)->delete();
-
+        ActivityLogger::activity("Logging this activity.", "deleted user");
         return redirect('/profile');
     }
 
