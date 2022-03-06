@@ -22,25 +22,6 @@ Auth::routes(['register' => false]);
 
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->middleware('auth');
 
-Route::get('/person/{batch}', [App\Http\Controllers\PersonController::class, 'index'])->middleware('auth')->name('person.index');
-
-Route::get('/person/{batch}/{person}', [App\Http\Controllers\PersonController::class, 'profile'])->middleware('auth');
-
-Route::get('/person/{batch}/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify'])->middleware('auth');
-
-Route::get('/catalogue', [App\Http\Controllers\catalogueController::class, 'index'])->name('catalogue.index');
-Route::get('/catalogue/{facCode}', [App\Http\Controllers\catalogueController::class, 'getBatches'])->name('catalogue.getBatches');
-Route::get('/catalogue/{facCode}/{batch}', [App\Http\Controllers\catalogueController::class, 'getStudents'])->name('catalogue.getStudents');
-
-Route::get('/forum/create', [App\Http\Controllers\ForumController::class, 'create']);
-
-Route::get('/forum/create/{id}', [App\Http\Controllers\ForumController::class, 'findDepartment']);
-
-Route::get('/forum/form', [App\Http\Controllers\ForumController::class, 'index']);
-Route::get('/forum/staff', [App\Http\Controllers\ForumController::class, 'staff']);
-
-Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
-
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
 
 Route::get('/register/{username}', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
@@ -59,6 +40,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/faculty/create', [App\Http\Controllers\FacultyController::class, 'create']);
 });
 
+// Routes for the site activity logging
 Route::group(['prefix' => 'activity', 'namespace' => 'App\Http\Controllers', 'middleware' => ['web', 'auth', 'activity']], function () {
 
     // Dashboards
@@ -73,4 +55,29 @@ Route::group(['prefix' => 'activity', 'namespace' => 'App\Http\Controllers', 'mi
     Route::get('/clear-activity', ['uses' => 'LaravelLoggerController@clearActivityLog'])->name('clear-activity');
     Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
     Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
+});
+
+// Routes for verification by admins
+Route::group(['prefix' => 'person/{batch}','middleware' => ['auth']], function () {
+
+    Route::get('/', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
+    Route::get('/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
+    Route::get('/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify']);
+});
+
+// Routes for the catalogue views
+Route::group(['prefix' => 'catalogue'], function () {
+
+    Route::get('/', [App\Http\Controllers\catalogueController::class, 'index'])->name('catalogue.index');
+    Route::get('/{facCode}', [App\Http\Controllers\catalogueController::class, 'getBatches'])->name('catalogue.getBatches');
+    Route::get('/{facCode}/{batch}', [App\Http\Controllers\catalogueController::class, 'getStudents'])->name('catalogue.getStudents');
+});
+
+Route::group(['prefix' => 'forum'], function () {
+
+    Route::get('/create', [App\Http\Controllers\ForumController::class, 'create']);
+    Route::get('/create/{id}', [App\Http\Controllers\ForumController::class, 'findDepartment']);
+    Route::get('/form', [App\Http\Controllers\ForumController::class, 'index']);
+    Route::get('/staff', [App\Http\Controllers\ForumController::class, 'staff']);
+    Route::post('/', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
 });
