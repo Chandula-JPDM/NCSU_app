@@ -12,7 +12,7 @@ if (!isset($btnSubmitText)) {
 }
 @endphp
 
-<div class="modal" id="{{$formTrigger}}" aria-hidden="true">
+<div class="modal" id="{{$formTrigger}}" tabindex="-1" aria-hidden="true" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -29,7 +29,7 @@ if (!isset($btnSubmitText)) {
         Cancel
         </button> -->
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button class = 'confirmDelete btn btn-{{$modalClass}} pull-right btn-flat' id = 'confirm' data-bs-target="http://127.0.0.1:8000/activity/clear-activity" data-bs-method="get">
+        <button class = 'btn btn-{{$modalClass}} pull-right btn-flat' id = 'confirm' data-bs-target="{{route('clear-activity')}}" data-bs-method="get">
         <i class="fa ' . {{$actionBtnIcon}} . '" aria-hidden="true"></i>
         {{$btnSubmitText}}
         </button>
