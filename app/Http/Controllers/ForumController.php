@@ -12,6 +12,7 @@ use App\Models\Faculty;
 
 use Image;
 use File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class ForumController extends Controller
@@ -34,6 +35,25 @@ class ForumController extends Controller
         return view('forum.create')->with('fac', $faculties)->with('batch',$batches);
     }
 
+    //Email verification and password setting function
+    //Get method
+    public function verification($username)
+    {
+        return view('forum.verification', compact('username'));
+    }
+
+    //updating the password field 
+    public function update($username)
+    {
+        $data = request()->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $data['password'] = Hash::make($data['password']);
+        Person::where('username',$username)->update($data);
+
+        return redirect('/');
+    }
 
     /**
      * Create the directory if not exists
@@ -104,6 +124,8 @@ class ForumController extends Controller
             'faculty_id' => ['required','int','exists:faculties,id'],
             'batch_id' => ['required','int','exists:batches,id'],
             'department_id' => ['required','int', 'exists:departments,id'],
+            'phone' => ['required','string'],
+            'post' => ['required','string'],
         ]);
 
         // Create the image directory if not exists

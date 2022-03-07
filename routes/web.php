@@ -24,10 +24,12 @@ Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])
 
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
 
-Route::get('/register/{username}', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
+Route::get('/forum/{username}/register', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
+
+Route::put('/forum/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
 
 // Route that can be only accesed by the super admin
-Route::group(['middleware' => ['auth', 'admin']], function () {
+Route::group(['middleware' => ['auth', 'super.admin']], function() {
     // your routes
     Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 
@@ -58,7 +60,7 @@ Route::group(['prefix' => 'activity', 'namespace' => 'App\Http\Controllers', 'mi
 });
 
 // Routes for verification by admins
-Route::group(['prefix' => 'person/{batch}','middleware' => ['auth']], function () {
+Route::group(['prefix' => 'person/{batch}','middleware' => ['auth','admin']], function () {
 
     Route::get('/', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
     Route::get('/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
