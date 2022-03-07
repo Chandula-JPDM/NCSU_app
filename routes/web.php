@@ -22,12 +22,6 @@ Auth::routes(['register' => false]);
 
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->middleware('auth');
 
-Route::get('/person/{batch}', [App\Http\Controllers\PersonController::class, 'index'])->middleware('auth')->name('person.index');
-
-Route::get('/person/{batch}/{person}', [App\Http\Controllers\PersonController::class, 'profile'])->middleware('auth');
-
-Route::get('/person/{batch}/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify'])->middleware('auth');
-
 Route::get('/catalogue', [App\Http\Controllers\catalogueController::class, 'index'])->name('catalogue.index');
 Route::get('/catalogue/{facCode}', [App\Http\Controllers\catalogueController::class, 'getBatches'])->name('catalogue.getBatches');
 Route::get('/catalogue/{facCode}/{batch}', [App\Http\Controllers\catalogueController::class, 'getStudents'])->name('catalogue.getStudents');
@@ -43,10 +37,12 @@ Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->n
 
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
 
-Route::get('/register/{username}', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
+Route::get('/forum/{username}/register', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
+
+Route::put('/forum/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
 
 // Route that can be only accesed by the super admin
-Route::group(['middleware' => ['auth', 'admin']], function() {
+Route::group(['middleware' => ['auth', 'super.admin']], function() {
     // your routes
     Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 
@@ -57,4 +53,14 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::post('/faculty', [App\Http\Controllers\FacultyController::class, 'store'])->name('faculty.store');
 
     Route::get('/faculty/create', [App\Http\Controllers\FacultyController::class, 'create']);
+});
+
+//Route that can be only accesed by the faculty admins
+Route::group(['middleware' => ['auth', 'admin']], function() {
+    
+    Route::get('/person/{batch}', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
+
+    Route::get('/person/{batch}/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
+
+    Route::get('/person/{batch}/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify']);
 });
