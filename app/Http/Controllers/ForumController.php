@@ -116,6 +116,8 @@ class ForumController extends Controller
             'faculty_id' => ['required','int','exists:faculties,id'],
             'batch_id' => ['required','int','exists:batches,id'],
             'department_id' => ['required','int', 'exists:departments,id'],
+            'phone' => ['required','string'],
+            'post' => ['required','string'],
         ]);
 
         // Create the image directory if not exists
