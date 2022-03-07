@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\faculty;
 use Illuminate\Http\Request;
-use \App\Models\faculty;
 
 class FacultyController extends Controller
 {
-
     public function create()
     {
         return view('faculty.create');

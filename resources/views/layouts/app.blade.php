@@ -11,6 +11,14 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @yield('clickablerow-script')
+    @yield('addtitle-script')
+    @yield('confirmmodal-script')
+    @yield('datatable-script')
+    @yield('tooltip-script')
+    @yield('styles')
+    @yield('loggerscripts')
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -22,6 +30,9 @@
     <link rel="icon" href="img/favicon.png">
     <!-- apple touch icon -->
     <link rel="apple-touch-icon" href="img/favicon.png">
+
+    <script src="https://kit.fontawesome.com/1c62222909.js" crossorigin="anonymous"></script>
+
 </head>
 <body class="d-flex flex-column min-vh-100">
     <div id="app">

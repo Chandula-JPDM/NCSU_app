@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Faculty;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Faculty;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class UserFactory extends Factory

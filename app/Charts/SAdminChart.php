@@ -1,15 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Charts;
 
+use App\Models\faculty;
+use App\Models\Person;
+use App\Models\verifiedData;
 use Chartisan\PHP\Chartisan;
 use ConsoleTVs\Charts\BaseChart;
 use Illuminate\Http\Request;
-use \App\Models\Person;
-use \App\Models\verifiedData;
-use App\Models\faculty;
 
 class SAdminChart extends BaseChart
 {
@@ -33,17 +33,17 @@ class SAdminChart extends BaseChart
      * to the chart endpoint.
      */
     //public ?array $middlewares = ['auth', 'admin'];
-    
+
     /**
      * Handles the HTTP request for the given chart.
      * It must always return an instance of Chartisan
      * and never a string or an array.
      */
     public function handler(Request $request): Chartisan
-    {   
+    {
         //chart1
-        $people = Person::select('faculty_id')->orderBy('faculty_id','asc')->get()->countBy('faculty_id')->values()->toArray();
-        $verifiedpeople = verifiedData::select('faculty_id')->orderBy('faculty_id','asc')->get()->countBy('faculty_id')->values()->toArray();
+        $people = Person::select('faculty_id')->orderBy('faculty_id', 'asc')->get()->countBy('faculty_id')->values()->toArray();
+        $verifiedpeople = verifiedData::select('faculty_id')->orderBy('faculty_id', 'asc')->get()->countBy('faculty_id')->values()->toArray();
         $faculties = faculty::select('facultyCode')->get()->pluck('facultyCode')->toArray();
 
         return Chartisan::build()

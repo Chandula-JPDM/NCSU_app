@@ -28,6 +28,7 @@ class ForumController extends Controller
 
     public function create()
     {
+
         $faculties = Faculty::all();
         $batches = Batch::all();
 
@@ -66,13 +67,10 @@ class ForumController extends Controller
         $chmode = 744;
         
         $facultyCode = Faculty::findOrFail($faculty_id)->facultyCode;
-        // $tmpPath = $facultyCode.'/'.$type.'/'.$batch_id.'/';
         $tmpPath = $facultyCode.'\\'.$type.'\\'.$batch_id.'\\';
 
         // Define and initialize paths for different directories
         $paths = [
-            // 'image_path' => public_path('uploads/images/'.$tmpPath),
-            // 'thumbnail_path' => public_path('uploads/thumbs/'.$tmpPath)
             'image_path' => public_path('uploads\images\\'.$tmpPath),
             'thumbnail_path' => public_path('uploads\thumbs\\'.$tmpPath)
         ];
@@ -100,15 +98,12 @@ class ForumController extends Controller
         // Load the image, resize it and then save the profile image
         $image = Image::make($file)->fit(400, 400);
         $image->save(public_path('uploads\images\\'.$path).$imageName);
-        // $image->save(public_path('uploads/images/'.$path).$imageName);
 
         // Resize the image and save the tumbnail
         $image->resize(150,150);
         $image->save(public_path('uploads\thumbs\\'.$path).$imageName);
-        // $image->save(public_path('uploads/thumbs/'.$path).$imageName);
 
         return '\uploads\images\\'.$path.$imageName;
-        // return '/uploads/images/'.$path.$imageName;
     }
 
     public function store(){
@@ -141,13 +136,10 @@ class ForumController extends Controller
 
         // Change the image path in the user data
         $data['image'] = $path;
-
-        //add data to the database
         Person::create($data);
 
         //Mail sending procedure
-        $user = $data['username'];
-        Mail::to($data['email'])->queue(new ForumVerificationMail($user));
+        Mail::to($data['email'])->send(new ForumVerificationMail());
 
         return redirect('/forum/create')->with('message', 'Forum data entered Succesfully!!');
     }

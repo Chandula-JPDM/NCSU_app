@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class verifiedData extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'fname',
         'lname',
@@ -25,15 +26,18 @@ class verifiedData extends Model
         'department_id',
     ];
 
-    public function faculty(){
+    public function faculty()
+    {
         return $this->belongsTo(Faculty::class);
     }
 
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
 
-    public function batch(){
+    public function batch()
+    {
         return $this->belongsTo(Batch::class);
     }
 }

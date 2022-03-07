@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth', 'super.admin']], function() {
     Route::get('/faculty/create', [App\Http\Controllers\FacultyController::class, 'create']);
 });
 
+
 //Route that can be only accesed by the faculty admins
 Route::group(['middleware' => ['auth', 'admin']], function() {
     
@@ -63,4 +64,20 @@ Route::group(['middleware' => ['auth', 'admin']], function() {
     Route::get('/person/{batch}/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
 
     Route::get('/person/{batch}/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify']);
+});
+
+Route::group(['prefix' => 'activity', 'namespace' => 'App\Http\Controllers', 'middleware' => ['web', 'auth', 'activity']], function () {
+
+    // Dashboards
+    Route::get('/', 'LaravelLoggerController@showAccessLog')->name('activity');
+    Route::get('/cleared', ['uses' => 'LaravelLoggerController@showClearedActivityLog'])->name('cleared');
+
+    // Drill Downs
+    Route::get('/log/{id}', 'LaravelLoggerController@showAccessLogEntry');
+    Route::get('/cleared/log/{id}', 'LaravelLoggerController@showClearedAccessLogEntry');
+
+    // Forms
+    Route::get('/clear-activity', ['uses' => 'LaravelLoggerController@clearActivityLog'])->name('clear-activity');
+    Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
+    Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
 });
