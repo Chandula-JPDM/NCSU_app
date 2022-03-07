@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 class CreatePeopleTable extends Migration
@@ -20,7 +21,7 @@ class CreatePeopleTable extends Migration
                 $table->string('lname', 20);
                 $table->string('username', 20)->unique();
                 $table->string('email',50)->unique();
-                $table->string('password');
+                $table->string('password')->default(Hash::make('user12345'));
                 $table->string('fullname', 100);
                 $table->string('initial', 30);
                 $table->string('address', 200);
