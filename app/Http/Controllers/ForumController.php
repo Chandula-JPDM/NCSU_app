@@ -42,6 +42,19 @@ class ForumController extends Controller
         return view('forum.verification', compact('username'));
     }
 
+    public function resubmission($username, Request $request)
+    {
+        if (! $request->hasValidSignature()) {
+        abort(401);
+        }
+        
+        $faculties = Faculty::all();
+        $batches = Batch::all();
+        $data = Person::where('username',$username)->first();
+
+        return view('forum.resubmit')->with('fac', $faculties)->with('batch',$batches)->with('details',$data);
+    }
+
     //updating the password field 
     public function update($username)
     {
@@ -140,6 +153,41 @@ class ForumController extends Controller
 
         //Mail sending procedure
         Mail::to($data['email'])->send(new ForumVerificationMail());
+
+        return redirect('/forum/create')->with('message', 'Forum data entered Succesfully!!');
+    }
+
+    public function resubmitDataStore(){
+        // dd(request()->all());
+        
+        $data = request()->validate([
+            'fname' => ['required','string', 'max:20'],
+            'lname' => ['required','string', 'max:20'],
+            'username' => ['required','string', 'max:20', 'unique:people', 'unique:verified_data'],
+            'email' => ['required', 'email:rfc,dns', 'unique:people', 'unique:verified_data'],
+            'fullname' => ['required','string', 'max:100'],
+            'initial' => ['required','string', 'max:50'],
+            'address' => ['required','string', 'max:100'],
+            'city' => ['required','string', 'max:100'],
+            'date' => ['required','string'],
+            'regNo' => ['required','string', 'max:10','unique:people','unique:verified_data', 'regex:/^([A-Z]{1,2}\/{1}+\d{2}\/{1}+\d{3})/'],
+            'image' => ['required','image'],
+            'faculty_id' => ['required','int','exists:faculties,id'],
+            'batch_id' => ['required','int','exists:batches,id'],
+            'department_id' => ['required','int', 'exists:departments,id'],
+            'phone' => ['required','string'],
+            'post' => ['required','string'],
+        ]);
+
+        // Create the image directory if not exists
+        $paths = $this->createDirectory($data['faculty_id'], 'Student', $data['batch_id']);
+
+        // Store the image in the respective directory
+        $path = $this->storeImage($paths, $data['regNo'], $data['image']);
+
+        // Change the image path in the user data
+        $data['image'] = $path;
+        Person::create($data);
 
         return redirect('/forum/create')->with('message', 'Forum data entered Succesfully!!');
     }
