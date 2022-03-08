@@ -31,7 +31,8 @@ Route::get('/forum/create', [App\Http\Controllers\ForumController::class, 'creat
 Route::get('/forum/create/{id}', [App\Http\Controllers\ForumController::class, 'findDepartment']);
 
 Route::get('/forum/form', [App\Http\Controllers\ForumController::class, 'index']);
-Route::get('/forum/staff', [App\Http\Controllers\ForumController::class, 'staff']);
+Route::get('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'create']);
+Route::post('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'store'])->name('forum.store');
 
 Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
 

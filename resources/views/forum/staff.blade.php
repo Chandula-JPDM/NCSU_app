@@ -17,7 +17,7 @@
 </div>
 
 <div class="container">
-  <form class="row g-3" method="POST" action="/forum" enctype="multipart/form-data">
+  <form class="row g-3" method="POST" action="/forum/staff" enctype="multipart/form-data">
     @csrf
 
     <div class="col-md-6">
@@ -141,7 +141,9 @@
       <label for="faculty_id" class="form-label">Facutly name</label>
 
       <select id="faculty_id" type="faculty_id" class="form-select @error('faculty_id') is-invalid @enderror" name="faculty_id" value="{{ old('faculty_id') }}" autocomplete="faculty_id">
-        
+        @foreach($fac as $data)
+         <option value="{{$data->id}}">{{$data->name}}</option>
+        @endforeach
       </select>
 
       @error('faculty_id')
@@ -223,12 +225,37 @@
 @endsection
 
 @section('script')
-
+<script src="{{ asset('js/app.js') }}"></script>
 <script>
-  function addLink() {
-    var var1=document.getElementById("add-field");
-    var1.innerHTML="<input id='links' type='text' class='form-control @error('links') is-invalid @enderror' placeholder='' name='links' value='{{ old('links') }}'  autocomplete='links' autofocus>"
-  }
+  $(document).ready(function() {
+    $('#faculty_id').on('change', function() {
+            let facID = $(this).val();
+            if(facID) 
+            {
+                $.ajax({
+                    url: '/forum/create/'+facID,
+                    type: "GET",
+                    data : {"_token":"{{ csrf_token() }}"},
+                    dataType: "json",
+                    success:function(data) {
+                      // console.log(data);
+                      if(data)
+                      {
+                        $('#department_id').empty();
+                        $('#department_id').focus;
+                        $('#department_id').append('<option value="">-- Select Department --</option>'); 
+                        $.each(data, function(key, value){$('select[name="department_id"]').append('<option value="'+ key +'">' + value.name+ '</option>');});
+                      }
+                      else
+                      {
+                        $('#department_id').empty();
+                      }
+                    }
+                });
+            }
+            else
+            {$('#department_id').empty();}
+        });
+    });
 </script>
 @endsection
-
