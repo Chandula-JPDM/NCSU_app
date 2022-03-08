@@ -112,8 +112,8 @@
 
     <div class="col-12">
       <label for="email" class="form-label">Email</label>
-      
-      <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter your Gsuite email address" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+      <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{$details->email}}" name="email" value="{{$details->email}}" required autocomplete="email" autofocus>
 
       @error('email')
           <span class="invalid-feedback" role="alert">
@@ -173,7 +173,9 @@
       <label for="department_id" class="form-label">Department name</label>
 
       <select id="department_id" type="department_id" class="form-select @error('department_id') is-invalid @enderror" name="department_id" value="{{ old('department_id') }}" required autocomplete="department_id">
-        
+      @foreach($batch as $data)
+        <option value="{{$data->id}}">{{$data->name}}</option>
+      @endforeach
       </select>
 
       @error('department_id')
@@ -197,7 +199,7 @@
 
     <div class="mb-3">
       <label for="formFile" class="form-label">Insert a Profile Image</label>
-      <input class="form-control" type="file" id="formFile" name="image" required>  
+      <input class="form-control" type="file" id="formFile" name="image">  
     </div>
 
     <div class="col-12">
