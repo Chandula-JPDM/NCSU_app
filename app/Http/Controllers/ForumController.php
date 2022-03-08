@@ -9,6 +9,7 @@ use \App\Models\Person;
 use App\Models\Department;
 use App\Models\Batch;
 use App\Models\Faculty;
+use Illuminate\Support\Arr;
 
 use Image;
 use File;
@@ -47,7 +48,7 @@ class ForumController extends Controller
         if (! $request->hasValidSignature()) {
         abort(401);
         }
-        
+
         $faculties = Faculty::all();
         $batches = Batch::all();
         $data = Person::where('username',$username)->first();
@@ -137,8 +138,8 @@ class ForumController extends Controller
             'faculty_id' => ['required','int','exists:faculties,id'],
             'batch_id' => ['required','int','exists:batches,id'],
             'department_id' => ['required','int', 'exists:departments,id'],
-            'phone' => ['required','string'],
-            'post' => ['required','string'],
+            // 'phone' => ['required','string'],
+            // 'post' => ['required','string'],
         ]);
 
         // Create the image directory if not exists
@@ -163,33 +164,46 @@ class ForumController extends Controller
         $data = request()->validate([
             'fname' => ['required','string', 'max:20'],
             'lname' => ['required','string', 'max:20'],
-            'username' => ['required','string', 'max:20', 'unique:people', 'unique:verified_data'],
-            'email' => ['required', 'email:rfc,dns', 'unique:people', 'unique:verified_data'],
+            'username' => ['required','string', 'max:20','unique:verified_data'],
+            'email' => ['required', 'email:rfc,dns','unique:verified_data'],
             'fullname' => ['required','string', 'max:100'],
             'initial' => ['required','string', 'max:50'],
             'address' => ['required','string', 'max:100'],
             'city' => ['required','string', 'max:100'],
             'date' => ['required','string'],
-            'regNo' => ['required','string', 'max:10','unique:people','unique:verified_data', 'regex:/^([A-Z]{1,2}\/{1}+\d{2}\/{1}+\d{3})/'],
-            'image' => ['required','image'],
+            'regNo' => ['required','string', 'max:10','unique:verified_data', 'regex:/^([A-Z]{1,2}\/{1}+\d{2}\/{1}+\d{3})/'],
+            'image' => ['image'],
             'faculty_id' => ['required','int','exists:faculties,id'],
             'batch_id' => ['required','int','exists:batches,id'],
             'department_id' => ['required','int', 'exists:departments,id'],
-            'phone' => ['required','string'],
-            'post' => ['required','string'],
+            // 'phone' => ['required','string'],
+            // 'post' => ['required','string'],
         ]);
+        // dd(Arr::exists($data, 'image'));
+        $person = Person::where('email', '=', $data['email'])->where('username', '=', $data['username'])->where('isRejected', '=', true)->first();
+        if ($person === null) {
+        // user not found
+            abort(401);
+        }
+        else{
+            if(Arr::exists($data, 'image')){
+                // Create the image directory if not exists
+                $paths = $this->createDirectory($data['faculty_id'], 'Student', $data['batch_id']);
 
-        // Create the image directory if not exists
-        $paths = $this->createDirectory($data['faculty_id'], 'Student', $data['batch_id']);
+                // Store the image in the respective directory
+                $path = $this->storeImage($paths, $data['regNo'], $data['image']);
 
-        // Store the image in the respective directory
-        $path = $this->storeImage($paths, $data['regNo'], $data['image']);
+                // Change the image path in the user data
+                $data['image'] = $path;
+            }
+            else{
+                $data['image'] = $person->image;
+            }
+            $data['isRejected'] = false;
+            $person->update($data);
+        }
 
-        // Change the image path in the user data
-        $data['image'] = $path;
-        Person::create($data);
-
-        return redirect('/forum/create')->with('message', 'Forum data entered Succesfully!!');
+        return redirect('/forum/create')->with('message', 'Forum data resubmitted Succesfully!!');
     }
 
     public function findDepartment($id)
