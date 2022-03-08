@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ForumVerificationMail;
 use Illuminate\Http\Request;
 
-use \App\Models\Person;
+use \App\Models\Staff;
 use App\Models\Department;
 use App\Models\Faculty;
 
@@ -22,6 +22,60 @@ class StaffForumController extends Controller
         return view('forum.staff')->with('fac', $faculties);
     }
 
+    private function createDirectory($faculty_id, $type, $dept_id) {
+        /**
+         * chmode codes has 3 digits (Owner, Group, World)
+         * Permission (4 = read only, 7 = read and write and execute)
+         */
+        $chmode = 744;
+        
+        $facultyCode = Faculty::findOrFail($faculty_id)->facultyCode;
+        // $tmpPath = $facultyCode.'/'.$type.'/'.$dept_id.'/';
+        $tmpPath = $facultyCode.'\\'.$type.'\\'.$dept_id.'\\';
+
+        // Define and initialize paths for different directories
+        $paths = [
+            // 'image_path' => public_path('uploads/images/'.$tmpPath),
+            // 'thumbnail_path' => public_path('uploads/thumbs/'.$tmpPath)
+            'image_path' => public_path('uploads\images\\'.$tmpPath),
+            'thumbnail_path' => public_path('uploads\thumbs\\'.$tmpPath)
+        ];
+
+        // Create paths
+        foreach ($paths as $key => $path) {
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path, $chmode, true, true);
+            }
+        }
+
+        return $tmpPath;
+    }
+
+    /**
+     * Change image name
+     * Save image in respective directory
+     */
+    private function storeImage($path, $regNo, $file) {     
+        // Create the image name
+        $number = explode('/', $regNo)[2];
+        // $imageName = $number.'.'.$file->getClientOriginalExtension();
+        $imageName = $number.'.png';
+
+        // Load the image, resize it and then save the profile image
+        $image = Image::make($file)->fit(400, 400);
+        $image->save(public_path('uploads\images\\'.$path).$imageName);
+        // $image->save(public_path('uploads/images/'.$path).$imageName);
+
+        // Resize the image and save the tumbnail
+        $image->resize(150,150);
+        $image->save(public_path('uploads\thumbs\\'.$path).$imageName);
+        // $image->save(public_path('uploads/thumbs/'.$path).$imageName);
+
+        return '\uploads\images\\'.$path.$imageName;
+        // return '/uploads/images/'.$path.$imageName;
+    }
+
+
     public function store(){
         // dd(request()->all());
         
@@ -35,8 +89,8 @@ class StaffForumController extends Controller
             'address' => ['required','string', 'max:100'],
             'date' => ['required','string'],
             'image' => ['required','image'],
-            'faculty_id' => ['required','int','exists:faculties,id'],
-            'department_id' => ['required','int', 'exists:departments,id'],
+            //'faculty_id' => ['required','int','exists:faculties,id'],
+            //'department_id' => ['required','int', 'exists:departments,id'],
             'phone' => ['required','string'],
             'post' => ['required','string'],
         ]);
@@ -51,7 +105,7 @@ class StaffForumController extends Controller
         $data['image'] = $path;
 
         //add data to the database
-        Person::create($data);
+        Staff::create($data);
 
         //Mail sending procedure
         $user = $data['username'];
