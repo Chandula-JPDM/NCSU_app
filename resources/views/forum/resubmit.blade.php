@@ -173,9 +173,7 @@
       <label for="department_id" class="form-label">Department name</label>
 
       <select id="department_id" type="department_id" class="form-select @error('department_id') is-invalid @enderror" name="department_id" value="{{ old('department_id') }}" required autocomplete="department_id">
-      @foreach($batch as $data)
-        <option value="{{$data->id}}">{{$data->name}}</option>
-      @endforeach
+
       </select>
 
       @error('department_id')
@@ -212,4 +210,40 @@
 
 </form>
 </div>
+@endsection
+
+@section('script')
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+  $(document).ready(function() {
+    $('#faculty_id').on('change', function() {
+            let facID = $(this).val();
+            if(facID) 
+            {
+                $.ajax({
+                    url: '/forum/create/'+facID,
+                    type: "GET",
+                    data : {"_token":"{{ csrf_token() }}"},
+                    dataType: "json",
+                    success:function(data) {
+                      // console.log(data);
+                      if(data)
+                      {
+                        $('#department_id').empty();
+                        $('#department_id').focus;
+                        $('#department_id').append('<option value="">-- Select Department --</option>'); 
+                        $.each(data, function(key, value){$('select[name="department_id"]').append('<option value="'+ key +'">' + value.name+ '</option>');});
+                      }
+                      else
+                      {
+                        $('#department_id').empty();
+                      }
+                    }
+                });
+            }
+            else
+            {$('#department_id').empty();}
+        });
+    });
+</script>
 @endsection
