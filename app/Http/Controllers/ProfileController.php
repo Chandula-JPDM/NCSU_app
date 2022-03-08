@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use \App\Models\Person;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Exceptions\InvalidSignatureException;
@@ -39,7 +40,7 @@ class ProfileController extends Controller
         $department = \App\Models\Department::all();
 
         // $batch1 = collect($batch);
-        $people = DB::table('people')->where('faculty_id', $user->faculty_id)->get()->countby('batch_id');
+        $people = Person::where('faculty_id', $user->faculty_id)->where('isRejected', '=', false)->get()->countby('batch_id');
 
         // dd($people);
 
