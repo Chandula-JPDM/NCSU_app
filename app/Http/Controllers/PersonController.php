@@ -24,7 +24,7 @@ class PersonController extends Controller
     {
         $user = auth()->user();
 
-        $people = Person::select('id', 'initial', 'regNo', 'image', 'batch_id')->where(['batch_id'=>$batch->id, 'faculty_id'=>$user->faculty_id])->orderBy('regNo', 'asc')->get();
+        $people = Person::select('id', 'initial', 'regNo', 'image', 'batch_id')->where(['batch_id'=>$batch->id, 'faculty_id'=>$user->faculty_id, 'isRejected'=>false])->orderBy('regNo', 'asc')->get();
 
         // Change the image url to pick its respective thumbnails
         foreach ($people as $key => $person) {
@@ -87,7 +87,8 @@ class PersonController extends Controller
         //$data = $data->toArray();
         //verifiedData::firstOrCreate($data);
 
-        // $person->delete();
+        $person->isRejected = true;
+        $person->save();
 
         //Mail sending procedure
         Mail::to($data['email'])->send(new EntryRejectionMail($data['fname'],$data['username'],$feedback));
