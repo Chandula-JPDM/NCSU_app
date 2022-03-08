@@ -24,10 +24,6 @@ Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])
 
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
 
-Route::get('/forum/{username}/register', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
-
-Route::put('/forum/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
-
 // Route that can be only accesed by the super admin
 Route::group(['middleware' => ['auth', 'super.admin']], function() {
     // your routes
@@ -65,6 +61,7 @@ Route::group(['prefix' => 'person/{batch}','middleware' => ['auth','admin']], fu
     Route::get('/', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
     Route::get('/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
     Route::get('/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify']);
+    Route::post('/{person}/reject', [App\Http\Controllers\PersonController::class, 'reject']);
 });
 
 // Routes for the catalogue views
@@ -82,4 +79,8 @@ Route::group(['prefix' => 'forum'], function () {
     Route::get('/form', [App\Http\Controllers\ForumController::class, 'index']);
     Route::get('/staff', [App\Http\Controllers\ForumController::class, 'staff']);
     Route::post('/', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
+    Route::get('/{username}/register', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
+    Route::put('/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
+    Route::get('/resubmit/{username}', [App\Http\Controllers\ForumController::class, 'resubmission'])->name('forum.resubmit');
+    Route::post('/resubmission', [App\Http\Controllers\ForumController::class, 'resubmitDataStore'])->name('forum.store');
 });
