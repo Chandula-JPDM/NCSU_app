@@ -33,6 +33,7 @@ class CreatePeopleTable extends Migration
                 $table->integer('batch_id');
                 $table->unsignedBigInteger('department_id');
                 $table->timestamps();
+                $table->boolean('isRejected')->default(false);
 
                 $table->foreign('batch_id')->references('id')->on('batches');
                 $table->foreign('department_id')->references('id')->on('departments');

@@ -25,6 +25,7 @@ class Person extends Model
         'faculty_id',
         'batch_id',
         'department_id',
+        'isRejected',
     ];
 
     public function faculty()
