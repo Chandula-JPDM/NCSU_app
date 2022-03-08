@@ -8,6 +8,8 @@ use App\Models\verifiedData;
 use Illuminate\Http\Request;
 use LdapRecord\Models\ActiveDirectory\User;
 use SebastianBergmann\Environment\Console;
+use App\Mail\EntryRejectionMail;
+use Illuminate\Support\Facades\Mail;
 
 class PersonController extends Controller
 {
@@ -71,5 +73,25 @@ class PersonController extends Controller
         $person->delete();
 
         return redirect()->route('person.index', ['batch'=>$batch->id])->with('message', 'Profile verified Succesfully!!');
+    }
+
+    public function reject(Batch $batch, Person $person)
+    {
+        // dd(request()->all());
+        $feedback = request()->validate([
+            'keyerror' => ['required','string'],
+            'remarks' => ['required','string', 'max:100'],
+        ]);
+        //passing data from people table to verified data table
+        $data = $person->replicate();
+        //$data = $data->toArray();
+        //verifiedData::firstOrCreate($data);
+
+        // $person->delete();
+
+        //Mail sending procedure
+        Mail::to($data['email'])->send(new EntryRejectionMail($data['fname'],$data['username'],$feedback));
+
+        return redirect()->route('person.index', ['batch'=>$batch->id])->with('message', 'Profile rejected and user notified Succesfully!!');
     }
 }
