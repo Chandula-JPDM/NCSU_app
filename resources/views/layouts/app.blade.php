@@ -86,7 +86,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a href="/profile" class="dropdown-item">Profile</a>
+                                    <a href="/profile" class="dropdown-item">Dashboard</a>
                                     
                                     @yield('navbar')
                                     
