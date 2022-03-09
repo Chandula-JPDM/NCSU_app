@@ -13,7 +13,7 @@ class ProfileController extends Controller
 {
     public function _construct(){
 
-        $this->middleware('auth');
+        $this->middleware('auth:administration');
         
     }
 
