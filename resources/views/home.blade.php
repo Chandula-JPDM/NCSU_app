@@ -51,6 +51,7 @@
         @section('navbar')
         <a class="dropdown-item" href="/profile/create">Add new user</a>
         <a class="dropdown-item" href="/faculty/create">Add new faculty</a>
+        <a class="dropdown-item" href="/activity">Site Activity</a>
         @endsection
 
         <div class="p-3 pb-3 rounded">
