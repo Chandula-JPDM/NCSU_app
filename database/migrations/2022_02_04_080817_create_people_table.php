@@ -32,6 +32,8 @@ class CreatePeopleTable extends Migration
                 $table->integer('faculty_id');
                 $table->integer('batch_id');
                 $table->unsignedBigInteger('department_id');
+                $table->timestamp('email_verified_at')->nullable();
+                $table->rememberToken();
                 $table->timestamps();
 
                 $table->foreign('batch_id')->references('id')->on('batches');
