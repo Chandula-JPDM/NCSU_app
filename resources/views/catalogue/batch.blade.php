@@ -66,8 +66,10 @@
                     {{-- <img src="/images/homepage/student.jpg" class="card-img-top p-3" alt="Students"> --}}
                    <div class="card-body">
                        @foreach($batches as $data)
+                       <div class="p-1">
                         <a class="btn btn-outline-primary w-100 buttonBottomMargin" href="/catalogue/{{$facultyCode}}/{{$data->id}}">{{$data->id}} Batch</a>
-                       @endforeach
+                        </div>
+                        @endforeach
                     </div>
                </div>
            </div>
