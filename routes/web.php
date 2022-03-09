@@ -82,5 +82,7 @@ Route::group(['prefix' => 'forum'], function () {
     Route::get('/{username}/register', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
     Route::put('/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
     Route::get('/resubmit/{username}', [App\Http\Controllers\ForumController::class, 'resubmission'])->name('forum.resubmit');
-    Route::post('/resubmission', [App\Http\Controllers\ForumController::class, 'resubmitDataStore'])->name('forum.store');
+    Route::post('/resubmission', [App\Http\Controllers\ForumController::class, 'resubmitDataStore'])->name('forum.restore');
+    Route::get('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'create']);
+    Route::post('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'store']);
 });

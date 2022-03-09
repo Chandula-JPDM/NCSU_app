@@ -3,16 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 
-class Person extends Authenticatable
+class Staff extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    protected $guard = 'student';
+    use HasFactory;
 
     protected $fillable = [
         'fname',
@@ -23,28 +18,19 @@ class Person extends Authenticatable
         'fullname',
         'initial',
         'address',
-        'city',
+        'phone',
         'date',
-        'regNo',
+        'post',
         'image',
         'faculty_id',
-        'batch_id',
         'department_id',
-        'isRejected',
     ];
 
-    public function faculty()
-    {
+    public function faculty(){
         return $this->belongsTo(Faculty::class);
     }
 
-    public function department()
-    {
+    public function department(){
         return $this->belongsTo(Department::class);
-    }
-
-    public function batch()
-    {
-        return $this->belongsTo(Batch::class);
     }
 }
