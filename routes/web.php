@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,7 @@ Route::get('/', function () {
 // Auth::routes();
 Auth::routes(['register' => false]);
 
-Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->middleware('auth');
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->middleware('auth:administration');
 
 Route::get('/catalogue', [App\Http\Controllers\catalogueController::class, 'index'])->name('catalogue.index');
 Route::get('/catalogue/{facCode}', [App\Http\Controllers\catalogueController::class, 'getBatches'])->name('catalogue.getBatches');
@@ -32,7 +33,7 @@ Route::get('/forum/create/{id}', [App\Http\Controllers\ForumController::class, '
 
 Route::get('/forum/form', [App\Http\Controllers\ForumController::class, 'index']);
 Route::get('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'create']);
-Route::post('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'store'])->name('forum.store');
+// Route::post('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'store'])->name('forum.store');
 
 Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
 
@@ -43,7 +44,7 @@ Route::get('/forum/{username}/register', [App\Http\Controllers\ForumController::
 Route::put('/forum/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
 
 // Route that can be only accesed by the super admin
-Route::group(['middleware' => ['auth', 'super.admin']], function() {
+Route::group(['middleware' => ['auth:administration', 'super.admin']], function () {
     // your routes
     Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 
@@ -57,7 +58,7 @@ Route::group(['middleware' => ['auth', 'super.admin']], function() {
 });
 
 //Route that can be only accesed by the faculty admins
-Route::group(['middleware' => ['auth', 'admin']], function() {
+Route::group(['middleware' => ['auth:administration', 'admin']], function () {
     
     Route::get('/person/{batch}', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
 
