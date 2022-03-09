@@ -43,7 +43,8 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                        @guest
+                        @guest('administration')
+                        @guest('student')
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="/" style="color: white;">Home</a>
@@ -67,7 +68,10 @@
                                     <a class="nav-link" href="{{ route('register') }} " style="color: white;">{{ __('Register') }}</a>
                                 </li>
                             @endif
-                        @else
+                        @endguest
+                        @endguest
+                        
+                        @auth('administration')
                             <li class="nav-item">
                                 <a class="nav-link" href="/" style="color: white;">Home</a>
                             </li>
@@ -82,7 +86,7 @@
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="color: white;">
-                                    {{ Auth::user()->username }}
+                                    {{ Auth::guard('administration')->user()->username }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -101,7 +105,43 @@
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+                        @endauth
+
+                        @auth('student')
+                            <li class="nav-item">
+                                <a class="nav-link" href="/" style="color: white;">Home</a>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a class="nav-link" href="/catalogue" style="color: white;">People</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/forum/student" style="color: white;">Forum</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="color: white;">
+                                    {{ Auth::guard('student')->user()->username }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a href="/profile" class="dropdown-item">Dashboard</a>
+                                    
+                                    @yield('navbar')
+                                    
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endauth
                     </ul>
                 </div>
             </div>
