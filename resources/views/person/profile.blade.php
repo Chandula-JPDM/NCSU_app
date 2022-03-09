@@ -32,6 +32,7 @@
            <div class="mt-3">
                <div class="d-grid gap-2 col-6 mx-auto">
                 <a href="{{URL::current()}}/verify" class="btn btn-primary" type="button">Verify</a>
+                <a class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#rejectModal">Reject</a>
                </div>
            </div>
        </div>
@@ -122,6 +123,48 @@
            </div>
        </div>
    </div>
+</div>
+
+<!-- reject modal -->
+<div class="modal fade" id="rejectModal" aria-labelledby="rejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rejectModalLabel">Entry Rejection Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" aria-hidden="true"></button>
+      </div>
+      <div class="modal-body">
+        <p>Please indicate why are you rejecting the entry</p>
+        <form action="{{URL::current()}}/reject" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="pt-1">
+                <label for="keyerror" class="form-label">Key Error Type</label>
+                <select id="keyerror" type="keyerror" class="form-select" name="keyerror">
+                    <option value="Name Error">Name Error</option>
+                    <option value="Wrong Picture">Wrong Picture</option>
+                    <option value="User not found">User not found</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="pt-2">
+                <label for="remarks" class="form-label">Remarks for user</label>
+                <input type="text" class="form-control @error('remarks') is-invalid @enderror" placeholder="Some text here" name="remarks">
+                @error('remarks')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+
+            <!-- <button type="submit" class="btn btn-primary">Notify User</button> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Notify User</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 

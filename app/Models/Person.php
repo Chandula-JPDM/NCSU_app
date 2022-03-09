@@ -30,17 +30,21 @@ class Person extends Authenticatable
         'faculty_id',
         'batch_id',
         'department_id',
+        'isRejected',
     ];
 
-    public function faculty(){
+    public function faculty()
+    {
         return $this->belongsTo(Faculty::class);
     }
 
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
 
-    public function batch(){
+    public function batch()
+    {
         return $this->belongsTo(Batch::class);
     }
 }

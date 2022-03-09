@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             // Call the php artisan migrate:fresh using Artisan
             $this->command->call('migrate:fresh');
 
-            $this->command->line("Database cleared.");
+            $this->command->line('Database cleared.');
         }
 
         $this->call([
@@ -31,10 +31,10 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             UserSeeder::class,
             BatchSeeder::class,
-            PersonSeeder::class
+            PersonSeeder::class,
         ]);
 
-        $this->command->info("Database seeded.");
+        $this->command->info('Database seeded.');
 
         // Re Guard model
         Eloquent::reguard();

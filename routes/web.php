@@ -22,25 +22,7 @@ Auth::routes(['register' => false]);
 
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->middleware('auth');
 
-Route::get('/catalogue', [App\Http\Controllers\catalogueController::class, 'index'])->name('catalogue.index');
-Route::get('/catalogue/{facCode}', [App\Http\Controllers\catalogueController::class, 'getBatches'])->name('catalogue.getBatches');
-Route::get('/catalogue/{facCode}/{batch}', [App\Http\Controllers\catalogueController::class, 'getStudents'])->name('catalogue.getStudents');
-
-Route::get('/forum/create', [App\Http\Controllers\ForumController::class, 'create']);
-
-Route::get('/forum/create/{id}', [App\Http\Controllers\ForumController::class, 'findDepartment']);
-
-Route::get('/forum/form', [App\Http\Controllers\ForumController::class, 'index']);
-Route::get('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'create']);
-Route::post('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'store'])->name('forum.store');
-
-Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
-
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
-
-Route::get('/forum/{username}/register', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
-
-Route::put('/forum/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
 
 // Route that can be only accesed by the super admin
 Route::group(['middleware' => ['auth', 'super.admin']], function() {
@@ -56,12 +38,51 @@ Route::group(['middleware' => ['auth', 'super.admin']], function() {
     Route::get('/faculty/create', [App\Http\Controllers\FacultyController::class, 'create']);
 });
 
-//Route that can be only accesed by the faculty admins
-Route::group(['middleware' => ['auth', 'admin']], function() {
-    
-    Route::get('/person/{batch}', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
+// Routes for the site activity logging
+Route::group(['prefix' => 'activity', 'namespace' => 'App\Http\Controllers', 'middleware' => ['web', 'auth', 'activity']], function () {
 
-    Route::get('/person/{batch}/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
+    // Dashboards
+    Route::get('/', 'LaravelLoggerController@showAccessLog')->name('activity');
+    Route::get('/cleared', ['uses' => 'LaravelLoggerController@showClearedActivityLog'])->name('cleared');
 
-    Route::get('/person/{batch}/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify']);
+    // Drill Downs
+    Route::get('/log/{id}', 'LaravelLoggerController@showAccessLogEntry');
+    Route::get('/cleared/log/{id}', 'LaravelLoggerController@showClearedAccessLogEntry');
+
+    // Forms
+    Route::get('/clear-activity', ['uses' => 'LaravelLoggerController@clearActivityLog'])->name('clear-activity');
+    Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
+    Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
+});
+
+// Routes for verification by admins
+Route::group(['prefix' => 'person/{batch}','middleware' => ['auth','admin']], function () {
+
+    Route::get('/', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
+    Route::get('/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
+    Route::get('/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify']);
+    Route::post('/{person}/reject', [App\Http\Controllers\PersonController::class, 'reject']);
+});
+
+// Routes for the catalogue views
+Route::group(['prefix' => 'catalogue'], function () {
+
+    Route::get('/', [App\Http\Controllers\catalogueController::class, 'index'])->name('catalogue.index');
+    Route::get('/{facCode}', [App\Http\Controllers\catalogueController::class, 'getBatches'])->name('catalogue.getBatches');
+    Route::get('/{facCode}/{batch}', [App\Http\Controllers\catalogueController::class, 'getStudents'])->name('catalogue.getStudents');
+});
+
+Route::group(['prefix' => 'forum'], function () {
+
+    Route::get('/create', [App\Http\Controllers\ForumController::class, 'create']);
+    Route::get('/create/{id}', [App\Http\Controllers\ForumController::class, 'findDepartment']);
+    Route::get('/form', [App\Http\Controllers\ForumController::class, 'index']);
+    Route::get('/staff', [App\Http\Controllers\ForumController::class, 'staff']);
+    Route::post('/', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
+    Route::get('/{username}/register', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
+    Route::put('/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
+    Route::get('/resubmit/{username}', [App\Http\Controllers\ForumController::class, 'resubmission'])->name('forum.resubmit');
+    Route::post('/resubmission', [App\Http\Controllers\ForumController::class, 'resubmitDataStore'])->name('forum.restore');
+    Route::get('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'create']);
+    Route::post('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'store']);
 });

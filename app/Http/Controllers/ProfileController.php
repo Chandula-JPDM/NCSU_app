@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Routing\Exceptions\InvalidSignatureException;
+use \App\Models\Person;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 
 class ProfileController extends Controller
 {
-    public function _construct(){
+    use ActivityLogger;
 
+    public function _construct()
+    {
         $this->middleware('auth');
-        
     }
 
     public function index()
@@ -24,7 +27,7 @@ class ProfileController extends Controller
         $current_date_time = Carbon::now()->toDateTimeString();
 
         $id = $user->id;
-        $user->lastOnline=$current_date_time;
+        $user->lastOnline = $current_date_time;
         $user->update();
 
         // $users = DB::table('users')->get();
@@ -33,56 +36,52 @@ class ProfileController extends Controller
         $batch = \App\Models\Batch::all();
 
         $faculty = \App\Models\faculty::all();
-        
+
         $department = \App\Models\Department::all();
 
         // $batch1 = collect($batch);
-        $people = DB::table('people')->where('faculty_id', $user->faculty_id)->get()->countby('batch_id');
+        $people = Person::where('faculty_id', $user->faculty_id)->where('isRejected', '=', false)->get()->countby('batch_id');
 
         // dd($people);
 
         $colle = collect([
-                '16' => 0,
-                '17' => 0,
-                '18' => 0,
-                '19' => 0,
-                '20' => 0,
+            '16' => 0,
+            '17' => 0,
+            '18' => 0,
+            '19' => 0,
+            '20' => 0,
         ]);
-
 
         //$diff = $colle->diffKeys($people);
         $people = $people->union($colle);
 
         //dd($colle);
-        return view('home')->with('name',$users)->with('faculty', $faculty)->with('user',$user)->with('batch',$batch)->with('people',$people);
-        
+        return view('home')->with('name', $users)->with('faculty', $faculty)->with('user', $user)->with('batch', $batch)->with('people', $people);
     }
 
-    public function create(){
-
+    public function create()
+    {
         $faculties = DB::table('faculties')->get();
-
-        return view('profile.create') -> with('faculty', $faculties);
+        return view('profile.create')->with('faculty', $faculties);
     }
 
     public function delete(User $user)
     {
-        
         $deleted = DB::table('users')->where('id', '=', $user->id)->delete();
-
+        ActivityLogger::activity("Logging this activity.", "deleted user");
         return redirect('/profile');
-
     }
 
-    public function store(){
+    public function store()
+    {
 
         // dd(request()->all());
         $data = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'faculty_id' => ['required','int','exists:faculties,id'],
-            'is_admin' =>['required','boolean'],
+            'faculty_id' => ['required', 'int', 'exists:faculties,id'],
+            'is_admin' =>['required', 'boolean'],
             'remark' => ['string', 'max:100'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -98,6 +97,5 @@ class ProfileController extends Controller
         ]);
 
         return redirect('/profile');
-
     }
 }

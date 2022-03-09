@@ -16,7 +16,7 @@ class DepartmentFactory extends Factory
     public function definition()
     {
         return [
-            'name' => "Department of ".$this->faker->unique()->city()
+            'name' => 'Department of '.$this->faker->unique()->city(),
         ];
     }
 }
