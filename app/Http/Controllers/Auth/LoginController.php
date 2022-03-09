@@ -79,7 +79,7 @@ class LoginController extends Controller
             Auth::guard('web')->logout();
         }
 
-        elseif(Auth::guard('student')->check()){
+        if(Auth::guard('student')->check()){
             Auth::guard('student')->logout();
         }
         
