@@ -15,9 +15,9 @@ class ProfileController extends Controller
 {
     use ActivityLogger;
 
-    public function _construct()
+    public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:administration');   
     }
 
     public function index()

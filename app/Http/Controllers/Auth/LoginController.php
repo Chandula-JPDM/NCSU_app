@@ -38,6 +38,8 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('guest:administration')->except('logout');
+        $this->middleware('guest:student')->except('logout');
     }
 
     /**
@@ -56,16 +58,21 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::guard('student')->attempt($credentials)) {
+        if (Auth::guard('student')->attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
- 
-            return redirect()->intended('dashboard');
+
+            $user = auth('student')->user()->username;
+            return $request->wantsJson()
+                                ? new JsonResponse([], 204)
+                                : redirect()->intended('uop/'.$user);
         }
 
-        if (Auth::guard('web')->attempt($credentials)) {
+        if (Auth::guard('administration')->attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
  
-            return redirect()->intended('profile');
+            return $request->wantsJson()
+                                ? new JsonResponse([], 204)
+                                : redirect()->intended('profile');
         }
 
         return back()->withErrors([
@@ -75,11 +82,11 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        if(Auth::guard('web')->check()){
-            Auth::guard('web')->logout();
+        if(Auth::guard('administration')->check()){
+            Auth::guard('administration')->logout();
         }
 
-        if(Auth::guard('student')->check()){
+        else if(Auth::guard('student')->check()){
             Auth::guard('student')->logout();
         }
         
