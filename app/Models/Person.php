@@ -12,7 +12,7 @@ class Person extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $gurard = 'student';
+    protected $guard = 'student';
 
     protected $fillable = [
         'fname',
