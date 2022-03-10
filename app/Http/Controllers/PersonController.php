@@ -15,9 +15,9 @@ class PersonController extends Controller
 {
     //
 
-    public function _construct()
+    public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:administration');
     }
 
     public function index(Batch $batch)

@@ -26,7 +26,7 @@ Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])
 Route::get('/uop/{username}', [App\Http\Controllers\catalogueController::class, 'getProfile']);
 
 // Route that can be only accesed by the super admin
-Route::group(['middleware' => ['auth:administration', 'super.admin']], function () {
+Route::group(['middleware' => ['auth:administration', 'super.admin']], function() {
     // your routes
     Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 
@@ -39,19 +39,8 @@ Route::group(['middleware' => ['auth:administration', 'super.admin']], function 
     Route::get('/faculty/create', [App\Http\Controllers\FacultyController::class, 'create']);
 });
 
-//Route that can be only accesed by the faculty admins
-Route::group(['middleware' => ['auth:administration', 'admin']], function () {
-    
-    Route::get('/person/{batch}', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
-
-    Route::get('/', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
-    Route::get('/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
-    Route::get('/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify']);
-    Route::post('/{person}/reject', [App\Http\Controllers\PersonController::class, 'reject']);
-});
-
 // Routes for the site activity logging
-Route::group(['prefix' => 'activity', 'namespace' => 'App\Http\Controllers', 'middleware' => ['auth:administration', 'activity']], function () {
+Route::group(['prefix' => 'activity', 'namespace' => 'App\Http\Controllers', 'middleware' => ['super.admin', 'auth:administration', 'activity']], function () {
 
     // Dashboards
     Route::get('/', 'LaravelLoggerController@showAccessLog')->name('activity');
@@ -67,6 +56,15 @@ Route::group(['prefix' => 'activity', 'namespace' => 'App\Http\Controllers', 'mi
     Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
 });
 
+// Routes for verification by admins
+Route::group(['prefix' => 'person/{batch}','middleware' => ['auth:administration','admin']], function () {
+
+    Route::get('/', [App\Http\Controllers\PersonController::class, 'index'])->name('person.index');
+    Route::get('/{person}', [App\Http\Controllers\PersonController::class, 'profile']);
+    Route::get('/{person}/verify', [App\Http\Controllers\PersonController::class, 'verify']);
+    Route::post('/{person}/reject', [App\Http\Controllers\PersonController::class, 'reject']);
+});
+
 // Routes for the catalogue views
 Route::group(['prefix' => 'catalogue'], function () {
 
@@ -75,7 +73,6 @@ Route::group(['prefix' => 'catalogue'], function () {
     Route::get('/{facCode}/{batch}', [App\Http\Controllers\catalogueController::class, 'getStudents'])->name('catalogue.getStudents');
 });
 
-//Routes for the forum
 Route::group(['prefix' => 'forum'], function () {
 
     Route::get('/create', [App\Http\Controllers\ForumController::class, 'create']);
