@@ -78,12 +78,11 @@ Route::group(['prefix' => 'forum'], function () {
     Route::get('/create', [App\Http\Controllers\ForumController::class, 'create']);
     Route::get('/create/{id}', [App\Http\Controllers\ForumController::class, 'findDepartment']);
     Route::get('/form', [App\Http\Controllers\ForumController::class, 'index']);
-    Route::get('/staff', [App\Http\Controllers\ForumController::class, 'staff']);
+    Route::get('/staff', [App\Http\Controllers\StaffForumController::class, 'create']);
+    Route::post('/staff', [App\Http\Controllers\StaffForumController::class, 'store'])->name('forum.store');
     Route::post('/', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');
     Route::get('/{username}/register', [App\Http\Controllers\ForumController::class, 'verification'])->name('forum.verification');
     Route::put('/{username}', [App\Http\Controllers\ForumController::class, 'update'])->name('forum.update');
     Route::get('/resubmit/{username}', [App\Http\Controllers\ForumController::class, 'resubmission'])->name('forum.resubmit');
     Route::post('/resubmission', [App\Http\Controllers\ForumController::class, 'resubmitDataStore'])->name('forum.restore');
-    Route::get('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'create']);
-    Route::post('/forum/staff', [App\Http\Controllers\StaffForumController::class, 'store']);
 });

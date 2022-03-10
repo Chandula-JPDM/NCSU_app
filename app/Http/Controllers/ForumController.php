@@ -22,11 +22,6 @@ class ForumController extends Controller
     {
         return view('forum.form');
     }
-    public function staff()
-    {
-        return view('forum.staff');
-    }
-
     public function create()
     {
 
