@@ -167,28 +167,7 @@
       @enderror
     </div>
 
-    <div class="col-md-6">
-      <label for="links" class="form-label">Add Profile links </label>
-      <button onclick="addLink()" class="btn btn-primary">Add</button>
-
-      <input id="links" type="text" class="form-control @error('links') is-invalid @enderror" placeholder="" name="links" value="{{ old('links') }}"  autocomplete="links" autofocus>
-
-      @error('links')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-
-    </div>
-    <div class="col-md-6" id="add-field">
-
-    </div>
-
-
-    <div class="col-12">
-      <label for="description" class="form-label">Description</label>
-      <textarea id="description" class="form-control @error('description') is-invalid @enderror" placeholder="Please enter bio, educational qualifications, conducted projects and other necessary details" name="description" value="{{ old('description') }}"  autocomplete="address" autofocus></textarea>
-    </div>
+    
 
     <div class="mb-3">
       <label for="formFile" class="form-label">Insert a Profile Image</label>
