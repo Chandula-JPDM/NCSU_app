@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "beyondcode/laravel-self-diagnosis": "dev-master",
         "consoletvs/charts": "7.*",
         "directorytree/ldaprecord-laravel": "^2.5",
         "fruitcake/laravel-cors": "^2.0",
