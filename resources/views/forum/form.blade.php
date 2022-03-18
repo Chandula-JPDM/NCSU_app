@@ -8,30 +8,41 @@
 @section('content')
 
 <div class="container1">
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="card">
-      <img src="/img/back2.jpeg" alt="" srcset="">
-        <div class="card-body">
-          <h5 class="card-title">Staff</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="/forum/staff" class="btn btn-primary">Form</a>
+  <div id = "boxes"> 
+      <div id = "leftbox">
+        <div class="card" style="width: 18rem;">
+          <img src="/img/back2.jpeg" alt="" srcset="">
+          <div class="card-body">
+            <h5 class="card-title">Acedemic Staff</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="/forum/staff" class="btn btn-primary">Form</a>
+          </div>
+        </div>
+      </div> 
+              
+      <div id = "middlebox">
+        <div class="card" style="width: 18rem;">
+          <img src="/img/back2.jpeg" alt="" srcset="">
+          <div class="card-body">
+            <h5 class="card-title">Acedemic Supporting Staff</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="/forum/supStaff" class="btn btn-primary">Form</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="card">
-      <img src="/img/back2.jpeg" alt="" srcset="">
-        <div class="card-body">          
+              
+    <div id = "rightbox">
+      <div class="card" style="width: 18rem;">
+        <img src="/img/back2.jpeg" alt="" srcset="">
+        <div class="card-body">
           <h5 class="card-title">Students</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
           <a href="/forum/create" class="btn btn-primary">Form</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 
 @endsection
 
