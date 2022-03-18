@@ -78,6 +78,7 @@ Route::group(['prefix' => 'forum'], function () {
     Route::get('/create', [App\Http\Controllers\ForumController::class, 'create']);
     Route::get('/create/{id}', [App\Http\Controllers\ForumController::class, 'findDepartment']);
     Route::get('/form', [App\Http\Controllers\ForumController::class, 'index']);
+    Route::get('/supStaff', [App\Http\Controllers\StaffForumController::class, 'index']);
     Route::get('/staff', [App\Http\Controllers\StaffForumController::class, 'create']);
     Route::post('/staff', [App\Http\Controllers\StaffForumController::class, 'store'])->name('forum.store');
     Route::post('/', [App\Http\Controllers\ForumController::class, 'store'])->name('forum.store');

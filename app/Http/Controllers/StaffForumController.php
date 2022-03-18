@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Mail;
 
 class StaffForumController extends Controller
 {
+    public function index()
+    {
+        return view('forum.supStaff');
+    }
     public function create()
     {
         $faculties = Faculty::all();

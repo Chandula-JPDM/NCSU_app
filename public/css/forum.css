@@ -1,6 +1,24 @@
 .container1{
-  width: 45%;
+  width: 60%;
   margin: auto;
   padding-top: 3% ;
   padding-bottom: 3%;
+}
+#leftbox {
+  float:left; 
+  width:33.3%;
+  height: auto;
+  padding: 10px;
+}
+#middlebox{
+  float:left; 
+  width:33.3%;
+  height: auto;
+  padding: 10px;
+}
+#rightbox{
+  float:right;
+  width:33.3%;
+  height: auto;
+  padding: 10px;
 }

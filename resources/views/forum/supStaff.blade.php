@@ -15,7 +15,7 @@
 @endif
 
 <div class="container p-2 pb-2 rounded">
-            <h1 class="text-center font-weight-bold">Staff Data Collection Form</h1>
+            <h1 class="text-center font-weight-bold">Acedemic Supporting Staff Data Collection Form</h1>
 </div>
 
 <div class="container">
@@ -129,7 +129,7 @@
     <div class="col-md-6">
       <label for="post" class="form-label">Post</label>
       
-      <input id="post" type="text" class="form-control @error('post') is-invalid @enderror" placeholder="Senior Lecturer" name="post" value="{{ old('post') }}"  autocomplete="post" autofocus>
+      <input id="post" type="text" class="form-control @error('post') is-invalid @enderror" placeholder="" name="post" value="{{ old('post') }}"  autocomplete="post" autofocus>
 
       @error('post')
           <span class="invalid-feedback" role="alert">
@@ -143,9 +143,7 @@
       <label for="faculty_id" class="form-label">Facutly name</label>
 
       <select id="faculty_id" type="faculty_id" class="form-select @error('faculty_id') is-invalid @enderror" name="faculty_id" value="{{ old('faculty_id') }}" autocomplete="faculty_id">
-        @foreach($fac as $data)
-         <option value="{{$data->id}}">{{$data->name}}</option>
-        @endforeach
+     
       </select>
 
       @error('faculty_id')
@@ -167,34 +165,6 @@
               <strong>{{ $message }}</strong>
           </span>
       @enderror
-    </div>
-
-    <div class="col-md-6">
-      <label for="links" class="form-label">Links</label>      
-      <input id="links" type="text" class="form-control @error('links') is-invalid @enderror" placeholder="" name="links" value="{{ old('links') }}"  autocomplete="links" autofocus>
-
-      @error('links')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
-
-    </div>
-
-    <div class="col-md-6">
-      <input class="addlinks" type="button" onclick="add()" value="+">
-      <input class="removelinks" type="button" onclick="remove()" value="-">
-    </div>
-
-    <div class="col-md-6" id="addlink"></div>
-    <div class="col-md-6">    
-      <input id="total_chq" type="hidden" class="form-control @error('total_chq') is-invalid @enderror" placeholder="" name="total_chq" value="{{ old('total_chq') }}"  autocomplete="total_chq" autofocus>
-    </div>
-    
-
-    <div class="col-12">
-      <label for="txtEditor" class="form-label">Description</label>
-      <textarea id="txtEditor" type="text" class="form-control @error('editor') is-invalid @enderror" placeholder="enter bio, educational qualifications, conducted rojects and other necessary details" name="editor" value="{{ old('editor') }}"  autocomplete="editor" autofocus></textarea>
     </div>
 
     <div class="mb-3">
@@ -231,61 +201,3 @@
   </div>
 @endsection
 
-@section('script')
-<script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-  bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
-</script>
-<script>
-  $('.add').on('click', add);
-  $('.remove').on('click', remove);
-
-  function add() {
-  var new_chq_no = parseInt($('#total_chq').val()) + 1;
-  var new_input = "<input type='text' id='new_" + new_chq_no + "'>";
-  $('#addlink').append(new_input);
-  }
-  
-  function remove() {
-    var last_chq_no = $('#total_chq').val();
-    if (last_chq_no > 1) {
-      $('#new_' + last_chq_no).append('');
-      $('#total_chq').val(last_chq_no - 1);
-    }
-  }
-</script>
-<script src="{{ asset('js/app.js') }}"></script>
-<script>
-  $(document).ready(function() {
-    $('#faculty_id').on('change', function() {
-            let facID = $(this).val();
-            if(facID) 
-            {
-                $.ajax({
-                    url: '/forum/create/'+facID,
-                    type: "GET",
-                    data : {"_token":"{{ csrf_token() }}"},
-                    dataType: "json",
-                    success:function(data) {
-                      // console.log(data);
-                      if(data)
-                      {
-                        $('#department_id').empty();
-                        $('#department_id').focus;
-                        $('#department_id').append('<option value="">-- Select Department --</option>'); 
-                        $.each(data, function(key, value){$('select[name="department_id"]').append('<option value="'+ key +'">' + value.name+ '</option>');});
-                      }
-                      else
-                      {
-                        $('#department_id').empty();
-                      }
-                    }
-                });
-            }
-            else
-            {$('#department_id').empty();}
-        });
-    });
-</script>
-@endsection
