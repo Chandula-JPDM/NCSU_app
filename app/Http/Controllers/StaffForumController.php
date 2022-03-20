@@ -20,16 +20,16 @@ class StaffForumController extends Controller
     {
         return view('forum.supStaff');
     }
-    public function create()
+    public function view()
     {
         $faculties = Faculty::all();
         return view('forum.staff')->with('fac', $faculties);
     }
     
-    public function store(Request $req){
+    public function addData(Request $request){
         // dd(request()->all());
     
-        $data = $req->validate([
+        $data = request()->validate([
             'fname' => ['required','string', 'max:20'],
             'lname' => ['required','string', 'max:20'],
             'username' => ['required','string', 'max:20', 'unique:people', 'unique:verified_data'],
@@ -37,8 +37,7 @@ class StaffForumController extends Controller
             'fullname' => ['required','string', 'max:100'],
             'initial' => ['required','string', 'max:50'],
             'address' => ['required','string', 'max:100'],
-            'date' => ['required','string'],
-            //'image' => ['required','image'],
+            'image' => ['required','image'],
             //'faculty_id' => ['required','int','exists:faculties,id'],
             //'department_id' => ['required','int', 'exists:departments,id'],
             'phone' => ['required','string'],
@@ -54,15 +53,12 @@ class StaffForumController extends Controller
         // Change the image path in the user data
         //$data['image'] = $path;
         $data['image'] = 'path1';
-        $data['faculty_id'] = 147;
-        $data['image'] = 123;
+        $data['faculty_id'] = 258;
+        $data['department_id'] = 415;
         
         //add data to the database
         Employee::create($data);
-
-      
-
-        return redirect('/forum/staff')->with('message', 'Forum data entered Succesfully!!');
+        return back()->with('success', 'Your form has been submitted.');
     }
 
 
