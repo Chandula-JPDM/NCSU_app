@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ForumVerificationMail;
 use Illuminate\Http\Request;
 
+use \App\Models\Employee;
 use \App\Models\Person;
 use App\Models\Department;
 use App\Models\Batch;
@@ -24,13 +25,20 @@ class ForumController extends Controller
     }
     public function create()
     {
-
         $faculties = Faculty::all();
         $batches = Batch::all();
 
         return view('forum.create')->with('fac', $faculties)->with('batch',$batches);
     }
-
+    public function view()   //acedemic staff
+    {
+        $faculties = Faculty::all();
+        return view('forum.staff')->with('fac', $faculties);
+    }
+    public function nonacc() //accdemic supporting staff
+    {
+        return view('forum.supStaff');
+    }
     //Email verification and password setting function
     //Get method
     public function verification($username)
@@ -197,6 +205,45 @@ class ForumController extends Controller
         }
 
         return redirect('/forum/create')->with('message', 'Forum data resubmitted Succesfully!!');
+    }
+
+    public function addData(){    
+        $data = request()->validate([
+            'fname' => ['required','string', 'max:20'],
+            'lname' => ['required','string', 'max:20'],
+            'username' => ['required','string', 'max:20', 'unique:people', 'unique:verified_data'],
+            'email' => ['required', 'email:rfc,dns', 'unique:people', 'unique:verified_data'],
+            'fullname' => ['required','string', 'max:100'],
+            'initial' => ['required','string', 'max:50'],
+            'address' => ['required','string', 'max:100'],
+            'image' => ['required','image'],
+            //'faculty_id' => ['required','int','exists:faculties,id'],
+            //'department_id' => ['required','int', 'exists:departments,id'],
+            'phone' => ['required','string'],
+            'post' => ['required','string'],
+        ]);
+        
+        $data['faculty_id'] = 258;
+        $data['department_id'] = 415;
+
+        // Create the image directory if not exists
+        $paths = $this->createDirectory($data['faculty_id'], 'Acc_staff', $data['department_id']);
+
+        $imageName = $data['username'].'.png';
+        // Load the image, resize it and then save the profile image
+        $image = Image::make($data['image'])->fit(400, 400);
+        $image->save(public_path('uploads\images\\'.$paths).$imageName);
+        // Resize the image and save the tumbnail
+        $image->resize(150,150);
+        $image->save(public_path('uploads\thumbs\\'.$paths).$imageName);
+
+        // Change the image path in the user data
+        $data['image'] = '\uploads\images\\'.$paths.$imageName;
+
+        
+        //add data to the database
+        Employee::create($data);
+        return back()->with('success', 'Your form has been submitted.');
     }
 
     public function findDepartment($id)
