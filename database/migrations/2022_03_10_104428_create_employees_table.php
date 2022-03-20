@@ -27,7 +27,6 @@ class CreateEmployeesTable extends Migration
                     $table->string('post', 20);
                     $table->string('image', 300);
                     $table->integer('faculty_id');
-                    $table->integer('batch_id');
                     $table->unsignedBigInteger('department_id');
                     $table->timestamps();
 

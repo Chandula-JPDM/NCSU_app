@@ -170,10 +170,10 @@
     </div>
 
     <div class="col-md-6">
-      <label for="links" class="form-label">Links</label>      
-      <input id="links" type="text" class="form-control @error('links') is-invalid @enderror" placeholder="" name="links" value="{{ old('links') }}"  autocomplete="links" autofocus>
-
-      @error('links')
+      <label for="website" class="form-label">Links</label>      
+      <input id="website" type="text" class="form-control @error('website') is-invalid @enderror" placeholder="Website URL" name="website" value="{{ old('website') }}"  autocomplete="website" autofocus>
+  
+      @error('website')
           <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>
           </span>
@@ -182,15 +182,57 @@
     </div>
 
     <div class="col-md-6">
-      <input class="addlinks" type="button" onclick="add()" value="+">
-      <input class="removelinks" type="button" onclick="remove()" value="-">
+      <label for="website" class="form-label" style="color:white;">Links</label>  
+      <input id="likdin" type="text" class="form-control @error('linkdin') is-invalid @enderror" placeholder="Linkdin URL" name="linkdin" value="{{ old('linkdin') }}"  autocomplete="linkdin" autofocus>
+      
+      @error('linkdin')
+          <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+          </span>
+      @enderror
+
     </div>
 
-    <div class="col-md-6" id="addlink"></div>
-    <div class="col-md-6">    
-      <input id="total_chq" type="hidden" class="form-control @error('total_chq') is-invalid @enderror" placeholder="" name="total_chq" value="{{ old('total_chq') }}"  autocomplete="total_chq" autofocus>
+    <div class="col-md-6">
+      <input id="gscholar" type="text" class="form-control @error('gscholar') is-invalid @enderror" placeholder="Google Scholar URL" name="gscholar" value="{{ old('gscholar') }}"  autocomplete="gscholar" autofocus>
+      
+      @error('gscholar')
+          <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+          </span>
+      @enderror
     </div>
-    
+
+    <div class="col-md-6">
+      <input id="rgate" type="text" class="form-control @error('rgate') is-invalid @enderror" placeholder="Researchgate URL" name="rgate" value="{{ old('rgate') }}"  autocomplete="rgate" autofocus>
+      
+      @error('rgate')
+          <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+          </span>
+      @enderror
+
+    </div>
+
+    <div class="col-md-6">
+      <input id="orcid" type="text" class="form-control @error('orcid') is-invalid @enderror" placeholder="Orcid URL" name="orcid" value="{{ old('orcid') }}"  autocomplete="orcid" autofocus>
+      
+      @error('orcid')
+          <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+          </span>
+      @enderror
+    </div>
+
+    <div class="col-md-6">
+      <input id="sindex" type="text" class="form-control @error('sindex') is-invalid @enderror" placeholder="Scientific index URL" name="sindex" value="{{ old('sindex') }}"  autocomplete="sindex" autofocus>
+      
+      @error('sindex')
+          <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+          </span>
+      @enderror
+    </div>
 
     <div class="col-12">
       <label for="txtEditor" class="form-label">Description</label>

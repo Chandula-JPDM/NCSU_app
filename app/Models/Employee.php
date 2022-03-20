@@ -8,18 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     use HasFactory;
-    //protected $guard = 'staff';
     protected $fillable = [
         'fname',
         'lname',
         'username',
         'email',
-        'password',
         'fullname',
         'initial',
         'address',
         'phone',
-        'date',
         'post',
         'image',
         'faculty_id',
