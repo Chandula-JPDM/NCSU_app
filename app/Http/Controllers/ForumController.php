@@ -221,6 +221,7 @@ class ForumController extends Controller
             //'department_id' => ['required','int', 'exists:departments,id'],
             'phone' => ['required','string'],
             'post' => ['required','string'],
+            'editor' => ['required','string'],
         ]);
         
         $data['faculty_id'] = 258;
@@ -240,10 +241,24 @@ class ForumController extends Controller
         // Change the image path in the user data
         $data['image'] = '\uploads\images\\'.$paths.$imageName;
 
-        
+        //creating directory to store text file
+        $facultyCode = Faculty::findOrFail($data['faculty_id'])->facultyCode;
+        $tmpPath = $facultyCode.'\\'.$data['department_id'].'\\';
+        // Define and initialize paths for different directories
+        $txtpath = public_path('uploads\\descriptions\\'.$tmpPath);
+        if(!File::isDirectory($txtpath)){
+            File::makeDirectory($txtpath, 744, true, true);
+        }
+        $file_data = $data['editor'];
+        $file_name = $data['username'].'.txt';
+        File::put($txtpath.$file_name,$file_data);
+
+        $data['editor'] = '\uploads\descriptions\\'.$tmpPath.$file_name;
+
+
         //add data to the database
         Employee::create($data);
-        return back()->with('success', 'Your form has been submitted.');
+        return redirect('/forum/staff')->with('message', 'Forum data resubmitted Succesfully!!');
     }
 
     public function findDepartment($id)

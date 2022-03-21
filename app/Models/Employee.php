@@ -19,6 +19,7 @@ class Employee extends Model
         'phone',
         'post',
         'image',
+        'editor',
         'faculty_id',
         'department_id',
     ];
