@@ -235,8 +235,13 @@
     </div>
 
     <div class="col-12">
-      <label for="txtEditor" class="form-label">Description</label>
-      <textarea id="txtEditor" type="text" class="form-control @error('editor') is-invalid @enderror" placeholder="enter bio, educational qualifications, conducted rojects and other necessary details" name="editor" value="{{ old('editor') }}"  autocomplete="editor" autofocus></textarea>
+      <label for="editor" class="form-label">Description</label>
+      <textarea id="editor" type="text" class="form-control @error('editor') is-invalid @enderror" placeholder="enter bio, educational qualifications, conducted rojects and other necessary details" name="editor" value="{{ old('editor') }}"  autocomplete="editor" autofocus></textarea>
+      @error('editor')
+          <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+          </span>
+      @enderror
     </div>
 
     <div class="mb-3">
